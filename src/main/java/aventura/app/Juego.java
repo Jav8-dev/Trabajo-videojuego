@@ -14,7 +14,7 @@ public class Juego {
 
     private static String descripcionJuego = "Estabas caminando por el matapiojos tranquilamente por la noche, de repente te intentan asaltar, " +
             "huyendo tropiezas y te das un duro golpe en la cabeza, piensas \"me va a salir un gran chichon\", pero de la nada caes inconsciente, " +
-            "despiertas en un sitio tetrico, este sitio parece un laberinto sin fin, las paredes son del mismo color y la iluminacion es tenue y calurosa, " +
+            "despiertas en un sitio tetrico, este sitio parece un laberinto sin final, las paredes son del mismo color y la iluminacion es tenue y calurosa, " +
             "¿Que vas a hacer ahora?";
 
     // El mapa de habitaciones.
