@@ -1,8 +1,8 @@
 # 🚀 Proyecto: NIGHT CLASS
 
 **Miembros del Equipo:**
-* [Nombre Alumno/a 1]
-* [Nombre Alumno/a 2]
+* [Alejandro Hernandez]
+* [Javier Garrocho]
 
 ---
 
