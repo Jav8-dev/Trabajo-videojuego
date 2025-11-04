@@ -20,9 +20,9 @@ public class Juego {
     // El mapa de habitaciones.
     // TODO: (Skin) ¡Rellenad esto con vuestras descripciones!
     private static String[] habitaciones = {
-            "Estas en el inicio hay puerto a la: IZQUIERDA, DERECHA Y DELANTE.",  // Posición 0
-            "Estás en el pasillo principal. Hay puertas a la DERECHA y a la IZQUIDA.", // Posición 1
-            "Estás en el aula 105. Hay una puerta a la IZQUIERDA y has visto una 'llave' en una mesa.", // Posición 2
+            "Estas en el inicio puedes ir a la: IZQUIERDA, DERECHA Y DELANTE.",  // Posición 0
+            "Estás en la habitacion 1. Hay puertas a la DERECHA y a la IZQUIERDA.", // Posición 1
+            "Estás en el habitacion. Hay una puerta a la IZQUIERDA y has visto una 'llave' en una mesa.", // Posición 2
             // Borra las habitaciones y escribe las tuyas
     };
 
