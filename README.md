@@ -8,13 +8,13 @@
 
 ## 📖 Nuestra Historia (El "Skin")
 
-**Temática del Juego:** Escape / Misterio en el Instituto.
+**Temática del Juego:** Escape / Backrooms
 
 **Premisa:**
-> No sabes qué ha pasado. Justo cuando terminabas las clases te quedaste el último como siempre recogiendo tus cosas. Pero algo pasó. Lo último que recuerdas es que sentiste mucho frío y todo se volvió oscuro. Ahora estás en tu clase, pero es de noche y el instituto está cerrado. ¿Nadie te ha visto? ¿Por qué las limpiadoras no te han despertado?
+> Estabas caminando por el matapiojos tranquilamente por la noche, de repente te intentan asaltar, huyendo tropiezas y te das un duro golpe en la cabeza, piensas "me va a salir un gran chichon", pero de la nada caes inconsciente, despiertas en un sitio tetrico, este sitio parece un laberinto sin final, las paredes son del mismo color y la iluminacion es tenue y calurosa, ¿Que vas a hacer ahora?
 
 **Objetivo:**
-Descubrir qué ha pasado y encontrar una forma de salir del instituto.
+Descubrir qué ha pasado y encontrar la forma de salir de las backrooms.
 
 ---
 
