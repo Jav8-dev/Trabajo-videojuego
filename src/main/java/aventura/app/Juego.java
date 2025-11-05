@@ -1,6 +1,7 @@
 package aventura.app;
 
 import java.util.Locale;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -155,6 +156,16 @@ public class Juego {
     }
 
 
+    private static void eventoProbable() {
+        Random random = new Random();
+        boolean hayBicho = false;
+        //este boolean nos servira a la hora de añadirlos en las habitaciones
+        int numrand = random.nextInt(100); // la probabilidad
+        if (numrand < 30) {
+            System.out.println("CORRE, EL BICHO ESTA EN ESTA HABITACION, TIENES 4 SEGUNDOS PARA HUIR");
+            hayBicho = true;
+        }
+    }
 
     /*
     (Opcional - Buenas Prácticas)
