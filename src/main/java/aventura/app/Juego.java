@@ -26,7 +26,7 @@ public class Juego {
             "Estás en la habitacion 2. Hay una puerta a la DERECHA y has visto una 'llave' en una mesa.", // Posición 2
             "Estás en la habitacion 3. Hay una puerta a la IZQUIERDA y has visto una 'llave' en una mesa.", // Posición 3
             "Estás en la habitacion 4. Hay una puerta a la DERECHA y has visto una 'llave' en una mesa.", // Posición 4
-            "Estás en la habitacion 5. Hay una puerta a la IZQUIERDA y has visto una 'llave' en una mesa.", // Posición 5
+            "Estás en la habitacion 5. Hay una puerta a la IZQUIERDA y ABAJO y has visto una 'llave' en una mesa.", // Posición 5
             "Estás en la habitacion 6. Hay una puerta HACIA DELANTE.", // Posición 6
             // HE CREADO LAS HABITACIONES POR EL MOMENTO, PARA TENER UNA VISTA PREVIA
     };
@@ -69,7 +69,7 @@ public class Juego {
 
             // TODO 3: Leer el comando del usuario por teclado
             System.out.print("\n> ");
-            scanner.useDelimiter("\n"); //Acepta espacios
+            scanner.useDelimiter("\n"); //Acepta espacios en el scanner
             //String comando = ...;
             String comando = scanner.next().toLowerCase();
 
@@ -82,65 +82,23 @@ public class Juego {
              */
             switch (comando) {
                 case "ayuda": //Panel de ayuda para los comandos
-                    System.out.println("================================= AYUDA =================================");
-                    System.out.println("Lista de comandos disponibles:");
-                    System.out.println(" - ayuda: Muestra esta lista de comandos.");
-                    System.out.println(" - mirar: Observa el entorno actual y describe lo que ves.");
-                    System.out.println(" - inventario: Muestra los objetos que llevas contigo.");
-                    System.out.println(" - ir derecha: Te mueves hacia la derecha (si es posible).");
-                    System.out.println(" - ir izquierda: Te mueves hacia la izquierda (si es posible).");
-                    System.out.println(" - ir delante: Te mueves hacia delante (si es posible).");
-                    System.out.println(" - ir atras: Te mueves hacia detras (si es posible).");
-                    System.out.println(" - coger [objeto]: Recoge un objeto del entorno. Ejemplo: 'coger llave'.");
-                    System.out.println(" - salir: Termina la partida.");
-                    System.out.println("==========================================================================");
+                    mostrarAyuda();
                     break;
                 case "ir derecha": //Comando para ir a la derecha
-                    if (habitacionActual == 0) {
-                        System.out.println("Te mueves hacia la derecha...");
-                        habitacionActual = 5;
-                        System.out.println(habitaciones[habitacionActual]);
-                    } else if (habitacionActual == 1) {
-                        System.out.println("Te mueves hacia la derecha...");
-                        habitacionActual = 3;
-                        System.out.println(habitaciones[habitacionActual]);
-                    }
+                    irDerecha();
                     break;
                 case "ir izquierda": //Comando para ir a la izquierda
-                    if (habitacionActual == 0) {
-                        System.out.println("Te mueves hacia la izquierda...");
-                        habitacionActual = 4;
-                        System.out.println(habitaciones[habitacionActual]);
-                    } else if (habitacionActual == 1) {
-                        System.out.println("Te mueves hacia la izquierda...");
-                        habitacionActual = 2;
-                        System.out.println(habitaciones[habitacionActual]);
-                        System.out.println();
-                    }
+                    irIzquierda();
                     break;
                 case "ir delante": //Comando para ir hacia delante
-                    if (habitacionActual == 0) {
-                        System.out.println("Te mueves hacia delante...");
-                        habitacionActual = 1;
-                        System.out.println(habitaciones[habitacionActual]);
-                    } else if (habitacionActual == 1) {
-                        System.out.println("No puedes ir hacia delante JEJE");
-                    }
                     break;
                 case "ir atras": //Comando para hacia atras
-                    if (habitacionActual == 0) {
-                        System.out.println("No puedes ir hacia atras");
-                    } else if (habitacionActual == 1) {
-                        System.out.println("Te mueves hacia atras...");
-                        habitacionActual = 0;
-                        System.out.println(habitaciones[habitacionActual]);
-                    }
                     break;
                 case "inventario":
-                    System.out.println("Mostrando objeto del inventario:" + inventario);
+                    break;
                 case "salir":
                     System.out.println("Saliendo del juego...");
-                    System.exit(0);
+                    jugando = false;
                     break;
                 default:
                     System.out.println("Ese comando no existe escribe 'ayuda' para ver los comandos disponibles. ");
@@ -154,6 +112,49 @@ public class Juego {
 
 
     }
+
+    private static void mostrarAyuda() {
+        System.out.println("================================= AYUDA =================================");
+        System.out.println("Lista de comandos disponibles:");
+        System.out.println(" - ayuda: Muestra esta lista de comandos.");
+        System.out.println(" - mirar: Observa el entorno actual y describe lo que ves.");
+        System.out.println(" - inventario: Muestra los objetos que llevas contigo.");
+        System.out.println(" - ir derecha: Te mueves hacia la derecha (si es posible).");
+        System.out.println(" - ir izquierda: Te mueves hacia la izquierda (si es posible).");
+        System.out.println(" - ir delante: Te mueves hacia delante (si es posible).");
+        System.out.println(" - ir atras: Te mueves hacia detras (si es posible).");
+        System.out.println(" - coger [objeto]: Recoge un objeto del entorno. Ejemplo: 'coger llave'.");
+        System.out.println(" - salir: Termina la partida.");
+        System.out.println("==========================================================================");
+    }
+
+    private static void irDerecha() {
+        switch (habitacionActual) {
+            case 0 -> mover(5);
+            case 1 -> mover(3);
+            case 2 -> mover(1);
+            case 4 -> mover(0);
+            default -> System.out.println("No puedes ir hacia la derecha desde esta habitacion.");
+        }
+    }
+
+    private static void irIzquierda() {
+        switch (habitacionActual) {
+            case 0 -> mover(4);
+            case 1 -> mover(2);
+            case 3 -> mover(1);
+            case 5 -> mover(0);
+            default -> System.out.println("No puedes ir hacia la izquierda desde aquí.");
+        }
+    }
+
+    private static void mover(int nuevaHabitacion) {
+        System.out.println("Te mueves hacia la nueva habitación...");
+        habitacionActual = nuevaHabitacion;
+        System.out.println(habitaciones[habitacionActual]);
+    }
+
+
 
     /*
     (Opcional - Buenas Prácticas)
