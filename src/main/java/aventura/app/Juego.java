@@ -92,8 +92,10 @@ public class Juego {
                     irIzquierda();
                     break;
                 case "ir delante": //Comando para ir hacia delante
+                    irDelante();
                     break;
                 case "ir atras": //Comando para hacia atras
+                    irAtras();
                     break;
                 case "inventario":
                     break;
@@ -148,7 +150,21 @@ public class Juego {
             default -> System.out.println("No puedes ir hacia la izquierda desde aquí.");
         }
     }
+    private static void irDelante() {
+        switch (habitacionActual) {
+            case 0 -> mover(1);
+            case 6 -> mover(5);
+            default -> System.out.println("No puedes ir hacia delante desde aquí.");
+        }
+    }
 
+    private static void irAtras() {
+        switch (habitacionActual) {
+            case 1 -> mover(0);
+            case 5 -> mover(6);
+            default -> System.out.println("No puedes ir hacia atrás desde aquí.");
+        }
+    }
     private static void mover(int nuevaHabitacion) {
         System.out.println("Te mueves hacia la nueva habitación...");
         habitacionActual = nuevaHabitacion;
