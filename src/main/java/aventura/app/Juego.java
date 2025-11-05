@@ -65,7 +65,7 @@ public class Juego {
 
             // TODO 3: Leer el comando del usuario por teclado
             System.out.print("\n> ");
-            scanner.useDelimiter("\n");
+            scanner.useDelimiter("\n"); //Acepta espacios
             //String comando = ...;
             String comando = scanner.next().toLowerCase();
 
@@ -77,7 +77,7 @@ public class Juego {
              "ir derecha", "ir izquierda", "coger [objeto]" y "salir".
              */
             switch (comando) {
-                case "ayuda":
+                case "ayuda": //Panel de ayuda para los comandos
                     System.out.println("================================= AYUDA =================================");
                     System.out.println("Lista de comandos disponibles:");
                     System.out.println(" - ayuda: Muestra esta lista de comandos.");
@@ -91,20 +91,52 @@ public class Juego {
                     System.out.println(" - salir: Termina la partida.");
                     System.out.println("==========================================================================");
                     break;
-                case "ir derecha":
-                    System.out.println("Te mueves hacia la derecha...");
+                case "ir derecha": //Comando para ir a la derecha
+                    if (habitacionActual == 0) {
+                        System.out.println("Te mueves hacia la derecha...");
+                        habitacionActual = 5;
+                        System.out.println(habitaciones[habitacionActual]);
+                    } else if (habitacionActual == 1) {
+                        System.out.println("Te mueves hacia la derecha...");
+                        habitacionActual = 3;
+                        System.out.println(habitaciones[habitacionActual]);
+                    }
                     break;
-                case "ir izquierda":
-                    System.out.println("Te mueves hacia la izquierda...");
+                case "ir izquierda": //Comando para ir a la izquierda
+                    if (habitacionActual == 0) {
+                        System.out.println("Te mueves hacia la izquierda...");
+                        habitacionActual = 4;
+                        System.out.println(habitaciones[habitacionActual]);
+                    } else if (habitacionActual == 1) {
+                        System.out.println("Te mueves hacia la izquierda...");
+                        habitacionActual = 2;
+                        System.out.println(habitaciones[habitacionActual]);
+                        System.out.println();
+                    }
                     break;
-                case "ir delante":
-                    System.out.println("Te mueves hacia delante...");
+                case "ir delante": //Comando para ir hacia delante
+                    if (habitacionActual == 0) {
+                        System.out.println("Te mueves hacia delante...");
+                        habitacionActual = 1;
+                        System.out.println(habitaciones[habitacionActual]);
+                    } else if (habitacionActual == 1) {
+                        System.out.println("No puedes ir hacia delante JEJE");
+                    }
                     break;
-                case "ir atras":
-                    System.out.println("Te mueves hacia atras...");
+                case "ir atras": //Comando para hacia atras
+                    if (habitacionActual == 0) {
+                        System.out.println("No puedes ir hacia atras");
+                    } else if (habitacionActual == 1) {
+                        System.out.println("Te mueves hacia atras...");
+                        habitacionActual = 0;
+                        System.out.println(habitaciones[habitacionActual]);
+                    }
                     break;
+                case "inventario":
+                    System.out.println("Mostrando objeto del inventario:" + inventario);
                 case "salir":
                     System.out.println("Saliendo del juego...");
+                    System.exit(0);
                     break;
                 default:
                     System.out.println("Ese comando no existe escribe 'ayuda' para ver los comandos disponibles. ");
