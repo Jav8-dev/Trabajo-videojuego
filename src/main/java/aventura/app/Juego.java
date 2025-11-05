@@ -1,5 +1,6 @@
 package aventura.app;
 
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -20,9 +21,9 @@ public class Juego {
     // El mapa de habitaciones.
     // TODO: (Skin) ¡Rellenad esto con vuestras descripciones!
     private static String[] habitaciones = {
-            "Estas en el inicio puedes ir a la: IZQUIERDA, DERECHA Y DELANTE.",  // Posición 0
-            "Estás en la habitacion 1. Hay puertas a la DERECHA y a la IZQUIERDA.", // Posición 1
-            "Estás en el habitacion. Hay una puerta a la IZQUIERDA y has visto una 'llave' en una mesa.", // Posición 2
+            "Estas en el inicio hay puertas a la: IZQUIERDA, DERECHA Y DELANTE.",  // Posición 0
+            "Estás en el pasillo principal. Hay puertas a la DERECHA y a la IZQUIERDA.", // Posición 1
+            "Estás en el aula 105. Hay una puerta a la IZQUIERDA y has visto una 'llave' en una mesa.", // Posición 2
             // Borra las habitaciones y escribe las tuyas
     };
 
@@ -56,6 +57,7 @@ public class Juego {
 
         // TODO 1b: Muestra la descripción de la primera habitación
         // Pista: System.out.println(habitaciones[...]);
+        System.out.println(habitaciones[habitacionActual]);
 
 
         // TODO 2: Iniciar el bucle principal del juego (game loop)
@@ -63,7 +65,10 @@ public class Juego {
 
             // TODO 3: Leer el comando del usuario por teclado
             System.out.print("\n> ");
+            scanner.useDelimiter("\n");
             //String comando = ...;
+            String comando = scanner.next().toLowerCase();
+
 
             /*
             TODO 4: Crear un 'switch' o una estructura 'if-else if'
@@ -71,12 +76,47 @@ public class Juego {
              Debe gestionar como mínimo: "ayuda", "mirar", "inventario",
              "ir derecha", "ir izquierda", "coger [objeto]" y "salir".
              */
+            switch (comando) {
+                case "ayuda":
+                    System.out.println("================================= AYUDA =================================");
+                    System.out.println("Lista de comandos disponibles:");
+                    System.out.println(" - ayuda: Muestra esta lista de comandos.");
+                    System.out.println(" - mirar: Observa el entorno actual y describe lo que ves.");
+                    System.out.println(" - inventario: Muestra los objetos que llevas contigo.");
+                    System.out.println(" - ir derecha: Te mueves hacia la derecha (si es posible).");
+                    System.out.println(" - ir izquierda: Te mueves hacia la izquierda (si es posible).");
+                    System.out.println(" - ir delante: Te mueves hacia delante (si es posible).");
+                    System.out.println(" - ir atras: Te mueves hacia detras (si es posible).");
+                    System.out.println(" - coger [objeto]: Recoge un objeto del entorno. Ejemplo: 'coger llave'.");
+                    System.out.println(" - salir: Termina la partida.");
+                    System.out.println("==========================================================================");
+                    break;
+                case "ir derecha":
+                    System.out.println("Te mueves hacia la derecha...");
+                    break;
+                case "ir izquierda":
+                    System.out.println("Te mueves hacia la izquierda...");
+                    break;
+                case "ir delante":
+                    System.out.println("Te mueves hacia delante...");
+                    break;
+                case "ir atras":
+                    System.out.println("Te mueves hacia atras...");
+                    break;
+                case "salir":
+                    System.out.println("Saliendo del juego...");
+                    break;
+                default:
+                    System.out.println("Ese comando no existe escribe 'ayuda' para ver los comandos disponibles. ");
 
+
+            }
 
         }
-
         System.out.println("¡Gracias por jugar!");
         scanner.close();
+
+
     }
 
     /*
