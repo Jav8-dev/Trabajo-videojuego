@@ -6,7 +6,7 @@ import java.util.Scanner;
 /**
  * Clase principal del juego "Tu Propia Aventura".
  * Esqueleto para la Misión 1 (UD1-UD3).
- * VUESTRO TRABAJO es rellenar todos los TODO
+ * VUESTRO TRABAJO es rellenar todos los
  */
 public class Juego {
 
@@ -22,9 +22,13 @@ public class Juego {
     // TODO: (Skin) ¡Rellenad esto con vuestras descripciones!
     private static String[] habitaciones = {
             "Estas en el inicio hay puertas a la: IZQUIERDA, DERECHA Y DELANTE.",  // Posición 0
-            "Estás en el pasillo principal. Hay puertas a la DERECHA y a la IZQUIERDA.", // Posición 1
-            "Estás en el aula 105. Hay una puerta a la IZQUIERDA y has visto una 'llave' en una mesa.", // Posición 2
-            // Borra las habitaciones y escribe las tuyas
+            "Estás en la habitacion 1. Hay puertas a la DERECHA y a la IZQUIERDA.", // Posición 1
+            "Estás en la habitacion 2. Hay una puerta a la DERECHA y has visto una 'llave' en una mesa.", // Posición 2
+            "Estás en la habitacion 3. Hay una puerta a la IZQUIERDA y has visto una 'llave' en una mesa.", // Posición 3
+            "Estás en la habitacion 4. Hay una puerta a la DERECHA y has visto una 'llave' en una mesa.", // Posición 4
+            "Estás en la habitacion 5. Hay una puerta a la IZQUIERDA y has visto una 'llave' en una mesa.", // Posición 5
+            "Estás en la habitacion 6. Hay una puerta HACIA DELANTE.", // Posición 6
+            // HE CREADO LAS HABITACIONES POR EL MOMENTO, PARA TENER UNA VISTA PREVIA
     };
 
     // Los objetos que hay en cada habitación.
