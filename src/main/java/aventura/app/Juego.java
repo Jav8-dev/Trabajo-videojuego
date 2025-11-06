@@ -192,14 +192,24 @@ public class Juego {
     private static void eventoProbable() {
         Random random = new Random();
         boolean hayBicho = false;
-        //este boolean nos servira a la hora de añadirlos en las habitaciones
+        //este boolean nos servira para cuando lo llamemos tengamos la probabilidad de un bicho
         int numrand = random.nextInt(100); // la probabilidad
-        if (numrand < 30) {
-            System.out.println("CORRE, EL BICHO ESTA EN ESTA HABITACION, TIENES 4 SEGUNDOS PARA HUIR");
+        if (numrand < 30) {  // le ponemos el 30%
+            System.out.println("CORRE, EL BICHO ESTA EN ESTA HABITACION, TIENES 4 SEGUNDOS PARA HUIR"); //esto es cambiable
             hayBicho = true;
         }
     }
-
+    private static void mostrarInventario() {
+        System.out.println("Inventario:");
+        boolean vacio = true;
+        for (String objeto : inventario) {
+            if (objeto != null) {
+                System.out.println(" - " + objeto);
+                vacio = false;
+            }
+        }
+        if (vacio) System.out.println("Tu inventario está vacío.");
+    }
     /*
     (Opcional - Buenas Prácticas)
     Si el 'switch' se vuelve muy grande, podéis crear métodos privados
