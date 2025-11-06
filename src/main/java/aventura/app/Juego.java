@@ -22,12 +22,12 @@ public class Juego {
     // El mapa de habitaciones.
     // TODO: (Skin) ¡Rellenad esto con vuestras descripciones!
     private static String[] habitaciones = {
-            "Estas en el inicio hay puertas a la: IZQUIERDA, DERECHA Y DELANTE.",  // Posición 0
-            "Estás en la habitacion 1. Hay puertas a la DERECHA y a la IZQUIERDA.", // Posición 1
+            "Estas en el inicio hay puertas a la: IZQUIERDA, DERECHA Y DELANTE y hay una nota en la mesa.",  // Posición 0
+            "Estás en la habitacion 1. Hay puertas a la IZQUIERDA, DERECHA Y ATRAS.", // Posición 1
             "Estás en la habitacion 2. Hay una puerta a la DERECHA y has visto una 'llave' en una mesa.", // Posición 2
             "Estás en la habitacion 3. Hay una puerta a la IZQUIERDA y has visto una 'llave' dentro de un jarron.", // Posición 3
             "Estás en la habitacion 4. Hay una puerta a la DERECHA.", // Posición 4
-            "Estás en la habitacion 5. Hay una puerta a la IZQUIERDA y ABAJO.", // Posición 5
+            "Estás en la habitacion 5. Hay una puerta a la IZQUIERDA y ATRAS.", // Posición 5
             "Estás en la habitacion 6. Hay una puerta HACIA DELANTE y has visto una 'llave' detras de un cuadro..", // Posición 6
             // HE CREADO LAS HABITACIONES POR EL MOMENTO, PARA TENER UNA VISTA PREVIA
     };
@@ -87,32 +87,38 @@ public class Juego {
              Debe gestionar como mínimo: "ayuda", "mirar", "inventario",
              "ir derecha", "ir izquierda", "coger [objeto]" y "salir".
              */
-            switch (comando) {
-                case "ayuda": //Panel de ayuda para los comandos
-                    mostrarAyuda();
-                    break;
-                case "ir derecha": //Comando para ir a la derecha
-                    irDerecha();
-                    break;
-                case "ir izquierda": //Comando para ir a la izquierda
-                    irIzquierda();
-                    break;
-                case "ir delante": //Comando para ir hacia delante
-                    irDelante();
-                    break;
-                case "ir atras": //Comando para hacia atras
-                    irAtras();
-                    break;
-                case "inventario":
-                    break;
-                case "salir":
-                    System.out.println("Saliendo del juego...");
-                    jugando = false;
-                    break;
-                default:
-                    System.out.println("Ese comando no existe escribe 'ayuda' para ver los comandos disponibles. ");
-
-
+            if (comando.startsWith("coger ")) {
+                String objeto = comando.substring(6);
+                cogerObjeto(objeto);
+            } else {
+                switch (comando) {
+                    case "ayuda": //Panel de ayuda para los comandos
+                        mostrarAyuda();
+                        break;
+                    case "ir derecha": //Comando para ir a la derecha
+                        irDerecha();
+                        break;
+                    case "ir izquierda": //Comando para ir a la izquierda
+                        irIzquierda();
+                        break;
+                    case "ir delante": //Comando para ir hacia delante
+                        irDelante();
+                        break;
+                    case "ir atras": //Comando para hacia atras
+                        irAtras();
+                        break;
+                    case "inventario":
+                        mostrarInventario();
+                        break;
+                    case "mirar":
+                        break;
+                    case "salir":
+                        System.out.println("Saliendo del juego...");
+                        jugando = false;
+                        break;
+                    default:
+                        System.out.println("Ese comando no existe escribe 'ayuda' para ver los comandos disponibles. ");
+                }
             }
 
         }
@@ -121,6 +127,46 @@ public class Juego {
 
 
     }
+
+    private static void cogerObjeto(String objeto) {
+        boolean encontrado = false;
+
+        //Recorremos todas las columnas de los objetos del mapa de la habitación actual
+        for (int i = 0; i < objetosMapa[habitacionActual].length; i++) {
+            String objetoActual = objetosMapa[habitacionActual][i];
+
+            if (objetoActual != null && objetoActual.equals(objeto)) { //Comprobamos que el objeto introdu
+                encontrado = true;
+
+                //Buscar si hay algun hueco en el inventario
+                for (int j = 0; j < inventario.length; j++) {
+                    if (inventario[j] == null) { //Comprobar si hay algun hueco vacio en el inventario
+                        inventario[j] = objeto; // Añadir al inventario
+                        objetosMapa[habitacionActual][i] = null; // Eliminar del mapa el objeto que hemos cogido
+                        System.out.println("Has cogido la " + objeto + ".");
+
+                        if (objeto.equals("llave")) { //Comprobar si el objeto es una llave.
+                            llavesTotal++; //Sumar al contador de llaves una mas
+                            System.out.println("Llevas un total de " + llavesTotal + " llave."); //Mostrar las llaves que tenemos actualmente
+                        } else if (objeto.equals("nota")) { //Comprobar si el objeto es una nota
+                            System.out.println("Estas atrapado, tu objetivo es conseguir todas las llaves de este lugar para poder salir HAHAHAHA");
+                        }
+
+                        return;
+                    }
+                }
+
+                System.out.println("Tu inventario está lleno. No puedes coger más objetos."); //Si no hay hueco en el inventario mostramos este mensaje
+                return;
+            }
+        }
+
+        if (!encontrado) {
+            System.out.println("No hay ningún objeto llamado '" + objeto + "' en esta habitación."); //Si no hay ningun objeto en la habitacion con este nombre mostramos este mensaje
+        }
+    }
+
+    private static int llavesTotal = 0;
 
     private static void mostrarAyuda() {
         System.out.println("================================= AYUDA =================================");
@@ -137,10 +183,6 @@ public class Juego {
         System.out.println("==========================================================================");
     }
 
-    private static int contarLlaves() {
-        int llavesTotal = 0;
-        return llavesTotal;
-    }
 
     private static void irDerecha() {
         switch (habitacionActual) {
@@ -155,10 +197,10 @@ public class Juego {
     private static void irIzquierda() {
         switch (habitacionActual) {
             case 0 -> {
-                if (contarLlaves() >= 3) {
+                if (llavesTotal >= 3) {
                     mover(4);
                 } else {
-                    System.out.println("SALA BLOQUEADA. Tienes: " + contarLlaves() + "/3 llaves");
+                    System.out.println("SALA BLOQUEADA. Tienes: " + llavesTotal + "/3 llaves");
                 }
             }
             case 1 -> mover(2);
