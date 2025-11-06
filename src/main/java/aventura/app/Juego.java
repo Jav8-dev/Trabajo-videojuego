@@ -26,7 +26,7 @@ public class Juego {
             "Estás en la habitacion 1. Hay puertas a la IZQUIERDA, DERECHA Y ATRAS.", // Posición 1
             "Estás en la habitacion 2. Hay una puerta a la DERECHA y has visto una 'llave' en una mesa.", // Posición 2
             "Estás en la habitacion 3. Hay una puerta a la IZQUIERDA y has visto una 'llave' dentro de un jarron.", // Posición 3
-            "Estás en la habitacion 4. Hay una puerta a la DERECHA.", // Posición 4
+            "Estás en la habitacion 4. Has conseguidor escapar de las backrooms", // Posición 4
             "Estás en la habitacion 5. Hay una puerta a la IZQUIERDA y ATRAS.", // Posición 5
             "Estás en la habitacion 6. Hay una puerta HACIA DELANTE y has visto una 'llave' detras de un cuadro..", // Posición 6
             // HE CREADO LAS HABITACIONES POR EL MOMENTO, PARA TENER UNA VISTA PREVIA
@@ -87,11 +87,13 @@ public class Juego {
              Debe gestionar como mínimo: "ayuda", "mirar", "inventario",
              "ir derecha", "ir izquierda", "coger [objeto]" y "salir".
              */
-            if (comando.startsWith("coger ")) {
-                String objeto = comando.substring(6);
-                cogerObjeto(objeto);
-            } else {
-                switch (comando) {
+            switch (comando) {
+                    case "coger":
+                        System.out.println("Especifica el objeto que quieres coger:");
+                        mirarAlrededor();
+                        String objeto = scanner.next();
+                        cogerObjeto(objeto);
+                        break;
                     case "ayuda": //Panel de ayuda para los comandos
                         mostrarAyuda();
                         break;
@@ -120,8 +122,6 @@ public class Juego {
                     default:
                         System.out.println("Ese comando no existe escribe 'ayuda' para ver los comandos disponibles. ");
                 }
-            }
-
         }
         System.out.println("¡Gracias por jugar!");
         scanner.close();
@@ -171,7 +171,7 @@ public class Juego {
         for (int i = 0; i < objetosMapa[habitacionActual].length; i++) {
             String objetoActual = objetosMapa[habitacionActual][i];
             if (objetoActual != null) {
-                System.out.println(objetoActual);
+                System.out.println("Es la sala actual hay una: " + objetoActual);
                 hayObjetos = true;
             }
         }
@@ -191,7 +191,7 @@ public class Juego {
         System.out.println(" - ir izquierda: Te mueves hacia la izquierda (si es posible).");
         System.out.println(" - ir delante: Te mueves hacia delante (si es posible).");
         System.out.println(" - ir atras: Te mueves hacia detras (si es posible).");
-        System.out.println(" - coger [objeto]: Recoge un objeto del entorno. Ejemplo: 'coger llave'.");
+        System.out.println(" - coger : Recoge un objeto del entorno.");
         System.out.println(" - salir: Termina la partida.");
         System.out.println("==========================================================================");
     }
