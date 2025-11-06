@@ -25,23 +25,28 @@ public class Juego {
             "Estas en el inicio hay puertas a la: IZQUIERDA, DERECHA Y DELANTE.",  // Posición 0
             "Estás en la habitacion 1. Hay puertas a la DERECHA y a la IZQUIERDA.", // Posición 1
             "Estás en la habitacion 2. Hay una puerta a la DERECHA y has visto una 'llave' en una mesa.", // Posición 2
-            "Estás en la habitacion 3. Hay una puerta a la IZQUIERDA y has visto una 'llave' en una mesa.", // Posición 3
-            "Estás en la habitacion 4. Hay una puerta a la DERECHA y has visto una 'llave' en una mesa.", // Posición 4
-            "Estás en la habitacion 5. Hay una puerta a la IZQUIERDA y ABAJO y has visto una 'llave' en una mesa.", // Posición 5
-            "Estás en la habitacion 6. Hay una puerta HACIA DELANTE.", // Posición 6
+            "Estás en la habitacion 3. Hay una puerta a la IZQUIERDA y has visto una 'llave' dentro de un jarron.", // Posición 3
+            "Estás en la habitacion 4. Hay una puerta a la DERECHA.", // Posición 4
+            "Estás en la habitacion 5. Hay una puerta a la IZQUIERDA y ABAJO.", // Posición 5
+            "Estás en la habitacion 6. Hay una puerta HACIA DELANTE y has visto una 'llave' detras de un cuadro..", // Posición 6
             // HE CREADO LAS HABITACIONES POR EL MOMENTO, PARA TENER UNA VISTA PREVIA
     };
 
     // Los objetos que hay en cada habitación.
     // TODO: (Skin) Rellenad esto con vuestros objetos
     private static String[][] objetosMapa = {
-            {null, null},           // Objetos en Habitación 0
+            {"nota", null},           // Objetos en Habitación 0
             {null, null},           // Objetos en Habitación 1
-            {"llave", "nota"},      // Objetos en Habitación 2
+            {"llave", null},      // Objetos en Habitación 2
+            {"llave", null},      // Objetos en Habitación 3
+            {null, null},      // Objetos en Habitación 4
+            {null, null},      // Objetos en Habitación 5
+            {"llave", null},      // Objetos en Habitación 6
     };
 
+
     // El inventario del jugador. Tamaño fijo.
-    private static String[] inventario = new String[5];
+    private static String[] inventario = new String[4];
 
     // Variable que guarda la posición actual del jugador
     private static int habitacionActual = 0; // Empezamos en la primera habitación
@@ -53,6 +58,7 @@ public class Juego {
         // Puedes utilizar la clase MiEntradaSalida, que viviría en el paquete io
         Scanner scanner = new Scanner(System.in);
         boolean jugando = true;
+
 
         System.out.println("¡Bienvenido a 'BackroomsDoor'!");
         System.out.println("------------------------------------------");
@@ -131,6 +137,11 @@ public class Juego {
         System.out.println("==========================================================================");
     }
 
+    private static int contarLlaves() {
+        int llavesTotal = 0;
+        return llavesTotal;
+    }
+
     private static void irDerecha() {
         switch (habitacionActual) {
             case 0 -> mover(5);
@@ -143,7 +154,13 @@ public class Juego {
 
     private static void irIzquierda() {
         switch (habitacionActual) {
-            case 0 -> mover(4);
+            case 0 -> {
+                if (contarLlaves() >= 3) {
+                    mover(4);
+                } else {
+                    System.out.println("SALA BLOQUEADA. Tienes: " + contarLlaves() + "/3 llaves");
+                }
+            }
             case 1 -> mover(2);
             case 3 -> mover(1);
             case 5 -> mover(0);
