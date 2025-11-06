@@ -111,6 +111,7 @@ public class Juego {
                         mostrarInventario();
                         break;
                     case "mirar":
+                        mirarAlrededor();
                         break;
                     case "salir":
                         System.out.println("Saliendo del juego...");
@@ -165,7 +166,19 @@ public class Juego {
             System.out.println("No hay ningún objeto llamado '" + objeto + "' en esta habitación."); //Si no hay ningun objeto en la habitacion con este nombre mostramos este mensaje
         }
     }
-
+    private static void mirarAlrededor() {
+        boolean hayObjetos = false;
+        for (int i = 0; i < objetosMapa[habitacionActual].length; i++) {
+            String objetoActual = objetosMapa[habitacionActual][i];
+            if (objetoActual != null) {
+                System.out.println(objetoActual);
+                hayObjetos = true;
+            }
+        }
+        if (!hayObjetos) {
+            System.out.println("No hay ningun obejeto en esta sala.");
+        }
+    }
     private static int llavesTotal = 0;
 
     private static void mostrarAyuda() {
