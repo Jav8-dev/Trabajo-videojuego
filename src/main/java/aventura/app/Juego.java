@@ -78,7 +78,7 @@ public class Juego {
             System.out.print("\n> ");
             scanner.useDelimiter("\n"); //Acepta espacios en el scanner
             //String comando = ...;
-            String comando = scanner.next().toLowerCase();
+            String comando = scanner.next().toLowerCase(); //Convertir tod o a minisculas
 
 
             /*
@@ -90,9 +90,9 @@ public class Juego {
             switch (comando) {
                     case "coger":
                         System.out.println("Especifica el objeto que quieres coger:");
-                        mirarAlrededor();
+                        mirarAlrededor(); //llamada a el metodo miraralrededor
                         String objeto = scanner.next();
-                        cogerObjeto(objeto);
+                        cogerObjeto(objeto); //llamada al metodo para coger objetos
                         break;
                     case "ayuda": //Panel de ayuda para los comandos
                         mostrarAyuda();
@@ -109,15 +109,15 @@ public class Juego {
                     case "ir atras": //Comando para hacia atras
                         irAtras();
                         break;
-                    case "inventario":
+                    case "inventario": //Comando para mirar el inventario
                         mostrarInventario();
                         break;
-                    case "mirar":
+                    case "mirar": //Comando para mriar objetos en la habitacion
                         mirarAlrededor();
                         break;
-                    case "salir":
+                    case "salir": //Comando para salir del juego
                         System.out.println("Saliendo del juego...");
-                        jugando = false;
+                        jugando = false; //el boleano que decide el si el juego esta activo o no
                         break;
                     default:
                         System.out.println("Ese comando no existe escribe 'ayuda' para ver los comandos disponibles. ");
@@ -147,7 +147,7 @@ public class Juego {
                         System.out.println("Has cogido la " + objeto + ".");
 
                         if (objeto.equals("llave")) { //Comprobar si el objeto es una llave.
-                            llavesTotal++; //Sumar al contador de llaves una mas
+                            llavesTotal++; //Sumar al contador de llaves una demas
                             System.out.println("Llevas un total de " + llavesTotal + " llave."); //Mostrar las llaves que tenemos actualmente
                         } else if (objeto.equals("nota")) { //Comprobar si el objeto es una nota
                             System.out.println("Estas atrapado, tu objetivo es conseguir todas las llaves de este lugar para poder salir HAHAHAHA");
@@ -167,19 +167,19 @@ public class Juego {
         }
     }
     private static void mirarAlrededor() {
-        boolean hayObjetos = false;
-        for (int i = 0; i < objetosMapa[habitacionActual].length; i++) {
-            String objetoActual = objetosMapa[habitacionActual][i];
-            if (objetoActual != null) {
+        boolean hayObjetos = false; // declaracion de si hay objetos
+        for (int i = 0; i < objetosMapa[habitacionActual].length; i++) { //recorre los objetos que hay en la habitacion actual
+            String objetoActual = objetosMapa[habitacionActual][i];  //asigna el objeto a la variable objeto actual
+            if (objetoActual != null) { //si el objeto actual no es null imprimira por pantalla el objeto
                 System.out.println("Es la sala actual hay una: " + objetoActual);
                 hayObjetos = true;
             }
         }
         if (!hayObjetos) {
-            System.out.println("No hay ningun obejeto en esta sala.");
+            System.out.println("No hay ningun obejeto en esta sala."); //si no hay objetos mostrara que no hay nada
         }
     }
-    private static int llavesTotal = 0;
+    private static int llavesTotal = 0;   //llaves que tenemos en el momento
 
     private static void mostrarAyuda() {
         System.out.println("================================= AYUDA =================================");
@@ -197,9 +197,9 @@ public class Juego {
     }
 
 
-    private static void irDerecha() {
+    private static void irDerecha() { //metodo para ir a la derecha
         switch (habitacionActual) {
-            case 0 -> mover(5);
+            case 0 -> mover(5); //vamos a tener todas las opciones de cambio de habitacion declaradas, entonces variara a nueba habitacion el numero introducido
             case 1 -> mover(3);
             case 2 -> mover(1);
             case 4 -> mover(0);
@@ -207,7 +207,7 @@ public class Juego {
         }
     }
 
-    private static void irIzquierda() {
+    private static void irIzquierda() { //metodo para ir a la izquierda
         switch (habitacionActual) {
             case 0 -> {
                 if (llavesTotal >= 3) {
@@ -222,7 +222,7 @@ public class Juego {
             default -> System.out.println("No puedes ir hacia la izquierda desde aquí.");
         }
     }
-    private static void irDelante() {
+    private static void irDelante() { //metodo para ir delante
         switch (habitacionActual) {
             case 0 -> mover(1);
             case 6 -> mover(5);
@@ -230,14 +230,14 @@ public class Juego {
         }
     }
 
-    private static void irAtras() {
+    private static void irAtras() { //metodo para ir detras
         switch (habitacionActual) {
             case 1 -> mover(0);
             case 5 -> mover(6);
             default -> System.out.println("No puedes ir hacia atrás desde aquí.");
         }
     }
-    private static void mover(int nuevaHabitacion) {
+    private static void mover(int nuevaHabitacion) { //metodo para cambiar la habitacion
         System.out.println("Te mueves hacia la nueva habitación...");
         habitacionActual = nuevaHabitacion;
         System.out.println(habitaciones[habitacionActual]);
@@ -258,7 +258,7 @@ public class Juego {
         System.out.println("Inventario:");
         boolean vacio = true;
         for (String objeto : inventario) {
-            if (objeto != null) {
+            if (objeto != null) { //si el objeto no es null mostrar objeto
                 System.out.println(" - " + objeto);
                 vacio = false;
             }
