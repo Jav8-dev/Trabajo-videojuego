@@ -1,4 +1,4 @@
-package aventura.app.domain;
+package domain;
 
 public class Entidad {
 }
