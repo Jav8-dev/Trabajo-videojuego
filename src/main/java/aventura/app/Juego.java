@@ -1,5 +1,7 @@
 package aventura.app;
 
+import domain.Habitacion;
+
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -20,12 +22,12 @@ public class Juego {
 
     // El mapa de habitaciones.
     // TODO: (Skin) ¡Rellenad esto con vuestras descripciones!
-    private static String[] habitaciones = {
-            "Estas en el inicio hay puertas a la: IZQUIERDA, DERECHA y hay una nota en la mesa.",  // Posición 0
-            "Estás en la habitacion 1. Hay puertas a la: IZQUIERDA, DERECHA.", // Posición 1
-            "Estás en la habitacion 2. Hay puertas a la: DERECHA y has visto una 'llave' en una mesa.", // Posición 2
-            "Estás en la habitacion 3. Hay puertaS a la: IZQUIERDA, DERECHA y has visto una 'llave' dentro de un jarron.", // Posición 36
-            "Estás en la habitacion 4. Hay una puerta a la: IZQUIERDA", // Posición 36            // HE CREADO LAS HABITACIONES POR EL MOMENTO, PARA TENER UNA VISTA PREVIA
+    private static Habitacion[] habitaciones = {
+        new Habitacion("Inicio", "Estas en el inicio, hay puertas a la: IZQUIERDA, DERECHA y hay una nota en la mesa."),
+        new Habitacion("Habitacion 1", "Estas en la habitacion 1. Hay puertas a la IZQUIERDA, DERECHA."),
+        new Habitacion("Habitacion 2", "Estas en la habitacion 2. Hay una puerta a la DERECHA y has visto una llave en una mesa."),
+        new Habitacion("Habitacion 3", "Estas en la habitacion 3. Hay puertas a la IZQUIERDA, DERECHA y has visto una llave dentro de un jarron."),
+        new Habitacion("Habitacion 4", "Estas en la habitacion 4. Hay una puerta a la IZQUIERDA")
     };
 
 
@@ -60,7 +62,7 @@ public class Juego {
 
         // TODO 1b: Muestra la descripción de la primera habitación
         Pista:
-        System.out.println(habitaciones[habitacionActual]);
+        System.out.println(habitaciones[habitacionActual].getDescripcion());
 
 
         // TODO 2: Iniciar el bucle principal del juego (game loop)
@@ -154,7 +156,7 @@ public class Juego {
      * incluyendo su descripción y los objetos que hay en ella.
      */
     private static void mostrarInfoHabitacion() {
-        System.out.println(habitaciones[habitacionActual]);
+        System.out.println(habitaciones[habitacionActual].getDescripcion());
 
         boolean hayObjetos = false;
 
