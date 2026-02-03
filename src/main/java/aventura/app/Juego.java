@@ -1,9 +1,6 @@
 package aventura.app;
 
-import domain.Habitacion;
-import domain.Item;
-import domain.Llave;
-import domain.Objeto;
+import domain.*;
 
 import java.util.Locale;
 import java.util.Scanner;
@@ -43,11 +40,9 @@ public class Juego {
             {new Llave("llave", "Una llave plateada", "B-202"), null}
     };
 
-    // El inventario del jugador. Tamaño fijo.
-    private static Objeto[] inventario = new Objeto[5];
+    // El inventario del jugador.
+    private static Jugador jugador = new Jugador();
 
-    // Variable que guarda la posición actual del jugador
-    private static int habitacionActual = 0; // Empezamos en la primera habitación
 
     // --- FIN DE LA DEFINICIÓN DE DATOS ---
 
@@ -65,7 +60,7 @@ public class Juego {
 
         // TODO 1b: Muestra la descripción de la primera habitación
         Pista:
-        System.out.println(habitaciones[habitacionActual].getDescripcion());
+        System.out.println(habitaciones[jugador.getHabitacionActual()].getDescripcion());
 
 
         // TODO 2: Iniciar el bucle principal del juego (game loop)
@@ -88,7 +83,7 @@ public class Juego {
                 }
                 case "inventario" -> {
                     System.out.print("Objetos en tu inventario: ");
-                    for (Objeto objeto : inventario) {
+                    for (Objeto objeto : jugador.getInventario()) {
                         if (objeto != null) {
                             System.out.print(objeto.getNombre() + " ");
                         }
@@ -96,8 +91,8 @@ public class Juego {
                     System.out.println();
                 }
                 case "ir izquierda" -> {
-                    if (habitacionActual > 0) {
-                        habitacionActual--;
+                    if (jugador.getHabitacionActual() > 0) {
+                        jugador.setHabitacionActual(jugador.getHabitacionActual() -1) ;
                         System.out.println("Te has movido a la habitación de la izquierda.");
                         mostrarInfoHabitacion();
                     } else {
@@ -105,8 +100,8 @@ public class Juego {
                     }
                 }
                 case "ir derecha" -> {
-                    if (habitacionActual < habitaciones.length - 1) {
-                        habitacionActual++;
+                    if (jugador.getHabitacionActual() < habitaciones.length - 1) {
+                        jugador.setHabitacionActual(jugador.getHabitacionActual() +1);
                         System.out.println("Te has movido a la habitación de la derecha.");
                         mostrarInfoHabitacion();
                     } else {
@@ -159,11 +154,11 @@ public class Juego {
      * incluyendo su descripción y los objetos que hay en ella.
      */
     private static void mostrarInfoHabitacion() {
-        System.out.println(habitaciones[habitacionActual].getDescripcion());
+        System.out.println(habitaciones[jugador.getHabitacionActual()].getDescripcion());
 
         boolean hayObjetos = false;
 
-        for (Objeto objeto : objetosMapa[habitacionActual]) {
+        for (Objeto objeto : objetosMapa[jugador.getHabitacionActual()]) {
             if (objeto != null) {
                 hayObjetos = true;
                 break;
@@ -186,21 +181,14 @@ public class Juego {
      */
     private static void procesarComandoCoger(String objetoACoger) {
         boolean objetoEncontrado = false;
-        for (int i = 0; i < objetosMapa[habitacionActual].length; i++) {
-            if (objetosMapa[habitacionActual][i] != null && objetoACoger.equals(objetosMapa[habitacionActual][i].getNombre())) {
+        for (int i = 0; i < objetosMapa[jugador.getHabitacionActual()].length; i++) {
+            if (objetosMapa[jugador.getHabitacionActual()][i] != null && objetoACoger.equals(objetosMapa[jugador.getHabitacionActual()][i].getNombre())) {
                 objetoEncontrado = true;
                 // Buscar espacio en el inventario
-                boolean espacioEncontrado = false;
-                for (int j = 0; j < inventario.length; j++) {
-                    if (inventario[j] == null) {
-                        inventario[j] = objetosMapa[habitacionActual][i];
-                        objetosMapa[habitacionActual][i] = null; // Quitar el objeto de la habitación
-                        System.out.println("Has cogido " + objetoACoger + ".");
-                        espacioEncontrado = true;
-                        break;
-                    }
-                }
-                if (!espacioEncontrado) {
+                if (jugador.agregarAlInventario(objetosMapa[jugador.getHabitacionActual()][i])) {
+                    System.out.println("Has pillado " + objetoACoger + ".");
+                    objetosMapa[jugador.getHabitacionActual()][i] = null; // Quitar de la habitación
+                } else {
                     System.out.println("Tu inventario está lleno. No puedes coger más objetos.");
                 }
                 break;
@@ -218,7 +206,7 @@ public class Juego {
         System.out.print("Objetos en la habitación: ");
         boolean hayObjetos = false;
         boolean hayMasDeUnObjeto = false;
-        for (Objeto objeto : objetosMapa[habitacionActual]) {
+        for (Objeto objeto : objetosMapa[jugador.getHabitacionActual()]) {
             if (objeto != null) {
                 hayObjetos = true;
                 System.out.print(hayMasDeUnObjeto ? ", " + objeto.getNombre() : objeto.getNombre());
@@ -237,7 +225,7 @@ public class Juego {
      * @return true si hay al menos un objeto, false en caso contrario.
      */
     private static boolean hayObjetosEnHabitacion() {
-        for (Objeto objeto : objetosMapa[habitacionActual]) {
+        for (Objeto objeto : objetosMapa[jugador.getHabitacionActual()]) {
             if (objeto != null) {
                 return true;
             }
