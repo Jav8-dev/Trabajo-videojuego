@@ -34,11 +34,11 @@ public class Juego {
     // Los objetos que hay en cada habitación.
     // TODO: (Skin) Rellenad esto con vuestros objetos
     private static Objeto[][] objetosMapa = {
-            {null, new Nota("nota", "Una nota amarillenta", "Pista: El codigo de la caja fuerte es A-101")},           // Objetos en Habitación 0
-            {null, null},           // Objetos en Habitación 1
+            {null, new Nota("nota", "Una nota", "Pista: El codigo de la caja fuerte es A-101")},           // Objetos en Habitación 0
+            {null, null},
             {new Llave("llave", "Una llave dorada", "A-101"), null},// Objetos en Habitación 2
             {new Llave("llave", "Una llave plateada", "B-202"), null}
-    };
+    };           // Objetos en Habitación 1
 
     // El inventario del jugador. Tamaño fijo.
     private static Objeto[] inventario = new Objeto[5];
