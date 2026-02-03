@@ -1,7 +1,5 @@
 package aventura.app;
 
-import domain.*;
-
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -22,26 +20,26 @@ public class Juego {
 
     // El mapa de habitaciones.
     // TODO: (Skin) ¡Rellenad esto con vuestras descripciones!
-    private static Habitacion[] habitaciones = {
-        new Habitacion("Inicio", "Estas en el inicio, hay puertas a la: IZQUIERDA, DERECHA y hay una nota en la mesa."),
-        new Habitacion("Habitacion 1", "Estas en la habitacion 1. Hay puertas a la IZQUIERDA, DERECHA."),
-        new Habitacion("Habitacion 2", "Estas en la habitacion 2. Hay una puerta a la DERECHA y has visto una llave en una mesa."),
-        new Habitacion("Habitacion 3", "Estas en la habitacion 3. Hay puertas a la IZQUIERDA, DERECHA y has visto una llave dentro de un jarron."),
-        new Habitacion("Habitacion 4", "Estas en la habitacion 4. Hay una puerta a la IZQUIERDA")
+    private static String[] habitaciones = {
+            "Estas en el inicio hay puertas a la: IZQUIERDA, DERECHA y hay una nota en la mesa.",  // Posición 0
+            "Estás en la habitacion 1. Hay puertas a la: IZQUIERDA, DERECHA.", // Posición 1
+            "Estás en la habitacion 2. Hay puertas a la: DERECHA y has visto una 'llave' en una mesa.", // Posición 2
+            "Estás en la habitacion 3. Hay puertaS a la: IZQUIERDA, DERECHA y has visto una 'llave' dentro de un jarron.", // Posición 36
+            "Estás en la habitacion 4. Hay una puerta a la: IZQUIERDA", // Posición 36            // HE CREADO LAS HABITACIONES POR EL MOMENTO, PARA TENER UNA VISTA PREVIA
     };
 
 
     // Los objetos que hay en cada habitación.
     // TODO: (Skin) Rellenad esto con vuestros objetos
-    private static Objeto[][] objetosMapa = {
-            {null, new Nota("nota", "Una nota amarillenta", "Pista: El codigo de la caja fuerte es A-101")},           // Objetos en Habitación 0
+    private static String[][] objetosMapa = {
+            {null, "nota"},           // Objetos en Habitación 0
             {null, null},           // Objetos en Habitación 1
-            {new Llave("llave", "Una llave dorada", "A-101"), null},// Objetos en Habitación 2
-            {new Llave("llave", "Una llave plateada", "B-202"), null}
+            {"llave", null},    // Objetos en Habitación 2
+            {"llave", null}
     };
 
     // El inventario del jugador. Tamaño fijo.
-    private static Objeto[] inventario = new Objeto[5];
+    private static String[] inventario = new String[5];
 
     // Variable que guarda la posición actual del jugador
     private static int habitacionActual = 0; // Empezamos en la primera habitación
@@ -62,7 +60,7 @@ public class Juego {
 
         // TODO 1b: Muestra la descripción de la primera habitación
         Pista:
-        System.out.println(habitaciones[habitacionActual].getDescripcion());
+        System.out.println(habitaciones[habitacionActual]);
 
 
         // TODO 2: Iniciar el bucle principal del juego (game loop)
@@ -85,9 +83,9 @@ public class Juego {
                 }
                 case "inventario" -> {
                     System.out.print("Objetos en tu inventario: ");
-                    for (Objeto objeto : inventario) {
+                    for (String objeto : inventario) {
                         if (objeto != null) {
-                            System.out.print(objeto.getNombre() + " ");
+                            System.out.print(objeto + " ");
                         }
                     }
                     System.out.println();
@@ -156,11 +154,11 @@ public class Juego {
      * incluyendo su descripción y los objetos que hay en ella.
      */
     private static void mostrarInfoHabitacion() {
-        System.out.println(habitaciones[habitacionActual].getDescripcion());
+        System.out.println(habitaciones[habitacionActual]);
 
         boolean hayObjetos = false;
 
-        for (Objeto objeto : objetosMapa[habitacionActual]) {
+        for (String objeto : objetosMapa[habitacionActual]) {
             if (objeto != null) {
                 hayObjetos = true;
                 break;
@@ -184,13 +182,13 @@ public class Juego {
     private static void procesarComandoCoger(String objetoACoger) {
         boolean objetoEncontrado = false;
         for (int i = 0; i < objetosMapa[habitacionActual].length; i++) {
-            if (objetosMapa[habitacionActual][i] != null && objetoACoger.equals(objetosMapa[habitacionActual][i].getNombre())) {
+            if (objetoACoger.equals(objetosMapa[habitacionActual][i])) {
                 objetoEncontrado = true;
                 // Buscar espacio en el inventario
                 boolean espacioEncontrado = false;
                 for (int j = 0; j < inventario.length; j++) {
                     if (inventario[j] == null) {
-                        inventario[j] = objetosMapa[habitacionActual][i];
+                        inventario[j] = objetoACoger;
                         objetosMapa[habitacionActual][i] = null; // Quitar el objeto de la habitación
                         System.out.println("Has cogido " + objetoACoger + ".");
                         espacioEncontrado = true;
@@ -215,10 +213,10 @@ public class Juego {
         System.out.print("Objetos en la habitación: ");
         boolean hayObjetos = false;
         boolean hayMasDeUnObjeto = false;
-        for (Objeto objeto : objetosMapa[habitacionActual]) {
+        for (String objeto : objetosMapa[habitacionActual]) {
             if (objeto != null) {
                 hayObjetos = true;
-                System.out.print(hayMasDeUnObjeto ? ", " + objeto.getNombre() : objeto.getNombre());
+                System.out.print(hayMasDeUnObjeto ? ", " + objeto : objeto);
                 hayMasDeUnObjeto = true;
             }
         }
@@ -234,7 +232,7 @@ public class Juego {
      * @return true si hay al menos un objeto, false en caso contrario.
      */
     private static boolean hayObjetosEnHabitacion() {
-        for (Objeto objeto : objetosMapa[habitacionActual]) {
+        for (String objeto : objetosMapa[habitacionActual]) {
             if (objeto != null) {
                 return true;
             }
