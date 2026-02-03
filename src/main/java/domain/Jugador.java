@@ -7,6 +7,11 @@ public class Jugador {
     private int habitacionActual;
     private final int TAMAÑO_INVENTARIO = 5;
 
+    public Jugador() {
+        this.inventario = new Objeto[TAMAÑO_INVENTARIO];
+        this.habitacionActual = 0;
+    }
+
     public Jugador(Objeto[] inventario, int habitacionActual) {
         this.inventario = new Objeto[TAMAÑO_INVENTARIO];
         this.habitacionActual = 0; // El jugador empieza en la habitacion inicial
