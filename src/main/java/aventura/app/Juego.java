@@ -1,6 +1,7 @@
 package aventura.app;
 
 import domain.*;
+import interfaces.Abrible;
 
 import java.util.Locale;
 import java.util.Scanner;
@@ -120,6 +121,59 @@ public class Juego {
 
                     procesarComandoCoger(objetoACoger);
                 }
+
+                case "abrir" -> {
+                    System.out.println("Objetos que puedes intentar abrir: ");
+                    boolean hayAbribles = false;
+
+                    for (Objeto obj : objetosMapa[jugador.getHabitacionActual()]) {
+                        if (obj instanceof Abrible) {
+                            System.out.println("_ " + obj.getNombre());
+                            hayAbribles = true;
+                        }
+                    }
+
+                    if (!hayAbribles) {
+                        System.out.println("No hay nada que abrir");
+                        break;
+                    }
+
+                    System.out.println("Que quieres abrir?");
+                    String nombreObjeto = scanner.nextLine().toLowerCase(Locale.ROOT);
+
+                    Objeto objeto = buscarObjeto(nombreObjeto);
+
+                    if (objeto == null) {
+                        System.out.println("No hay ningún objeto llamado " + nombreObjeto + " aquí.");
+                    } else if (!(objeto instanceof Abrible abrible)) {
+                        System.out.println("No puedes abrir " + nombreObjeto + ".");
+                    } else {
+                        Llave llaveNecesaria = null;
+                        if (objeto instanceof Contenedor contenedor) {
+                            // Buscar llave que funcione
+                            for (Objeto inventario : jugador.getInventario()) {
+                                if (inventario instanceof Llave llave) {
+                                    llaveNecesaria = llave;
+                                    break;
+                                }
+                            }
+                        }
+
+                        RespuestaAccion respuesta = abrible.abrir(llaveNecesaria);
+                        System.out.println(respuesta.mensaje());
+
+                        if (respuesta.esExito() && objeto instanceof Contenedor contenedor) {
+                            Objeto objetoDentro = contenedor.sacarObjeto();
+                            if (objetoDentro != null) {
+                                if (jugador.agregarAlInventario(objetoDentro)) {
+                                    System.out.println("Has cogido el " + objetoDentro.getNombre() + " automaticamente");
+                                } else {
+                                    System.out.println("Tu inventario esta lleno. El " + objetoDentro.getNombre() + " sigue en el " + contenedor.getNombre() + ".");
+                                }
+                            }
+                        }
+                    }
+                }
                 case "salir" -> {
                     jugando = false;
                     System.out.println("Saliendo del juego...");
@@ -147,6 +201,7 @@ public class Juego {
         System.out.println("Mirar: muestra la descripción de la habitación actual y los objetos que hay en ella");
         System.out.println("Inventario: muestra los objetos que llevas contigo");
         System.out.println("Coger [objeto]: intenta coger un objeto de la habitación actual");
+        System.out.println("Abrir: abre un contenedor (usa llaves automáticamente)");
         System.out.println("Salir: termina el juego");
     }
 
@@ -246,5 +301,16 @@ public class Juego {
         }
         //Si no, que mire en el invetario
         return jugador.buscarEnInventario(nombre);
+    }
+
+    private static Llave buscarLLaveEnInventario(String codigo) {
+        for (Objeto obj : jugador.getInventario()) {
+            if (obj instanceof Llave llave) {
+                if (llave.getCodigoSeguridad().equals(codigo)) {
+                    return llave;
+                }
+            }
+        }
+        return null;
     }
 }
