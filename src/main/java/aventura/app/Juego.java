@@ -2,6 +2,7 @@ package aventura.app;
 
 import domain.*;
 import interfaces.Abrible;
+import interfaces.Leible;
 
 import java.util.Locale;
 import java.util.Scanner;
@@ -174,6 +175,40 @@ public class Juego {
                         }
                     }
                 }
+                case "examinar" -> {
+                    System.out.print("¿Que objeto quieres examinar? ");
+                    String nombreObjeto = scanner.nextLine().toLowerCase(Locale.ROOT);
+
+                    Objeto objeto = buscarObjeto(nombreObjeto);
+
+                    if (objeto == null) {
+                        System.out.println("El objeto " + nombreObjeto + " no existe (al menos aqui).");
+                    } else {
+                        System.out.println(objeto.getDescripcion());
+
+                        // Pattern Matching - Si es algo que se puede leer
+                        if (objeto instanceof Leible leible) {
+                            System.out.println("-----------------------------");
+                            System.out.println("Lees: " + leible.leer());
+                            System.out.println("-----------------------------");
+                        }
+
+                        // Si es un contenedor, mostrar si está abierto o cerrado
+                        if (objeto instanceof Contenedor contenedor) {
+                            if (contenedor.estaAbierto()) {
+                                if (contenedor.getObjetoGuardado() != null) {
+                                    System.out.println("Dentro hay: " + contenedor.getObjetoGuardado().getNombre());
+                                } else {
+                                    System.out.println("Esta vacío.");
+                                }
+                            } else {
+                                System.out.println("Esta cerrado.");
+                            }
+                        }
+                    }
+                }
+
+
                 case "salir" -> {
                     jugando = false;
                     System.out.println("Saliendo del juego...");
@@ -199,8 +234,9 @@ public class Juego {
         System.out.println("Ir derecha: intenta ir hacia la izquierda");
         System.out.println("Ir izquierda: intenta ir hacia la derecha");
         System.out.println("Mirar: muestra la descripción de la habitación actual y los objetos que hay en ella");
+        System.out.println("Examinar: examina un objeto en detalle");
         System.out.println("Inventario: muestra los objetos que llevas contigo");
-        System.out.println("Coger [objeto]: intenta coger un objeto de la habitación actual");
+        System.out.println("Coger: intenta coger un objeto de la habitación actual");
         System.out.println("Abrir: abre un contenedor (usa llaves automáticamente)");
         System.out.println("Salir: termina el juego");
     }
