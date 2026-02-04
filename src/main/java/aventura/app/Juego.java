@@ -38,7 +38,7 @@ public class Juego {
     private static Objeto[][] objetosMapa = {
             {
                     null,
-                    new Nota("nota", "Una nota amarillenta", "Pista: El código de la caja fuerte es A-101"),
+                    new Nota("nota", "Una nota", "Pista: El código de la caja fuerte es A-101"),
                     new Contenedor("cajon", "Un cajón de madera viejo", null)
             },
             {
