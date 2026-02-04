@@ -26,11 +26,11 @@ public class Juego {
     // El mapa de habitaciones.
     // TODO: (Skin) ¡Rellenad esto con vuestras descripciones!
     private static Habitacion[] habitaciones = {
-        new Habitacion("Inicio", "Estas en el inicio, hay puertas a la: IZQUIERDA, DERECHA y hay una nota en la mesa."),
-        new Habitacion("Habitacion 1", "Estas en la habitacion 1. Hay puertas a la IZQUIERDA, DERECHA."),
-        new Habitacion("Habitacion 2", "Estas en la habitacion 2. Hay una puerta a la DERECHA y has visto una llave en una mesa."),
-        new Habitacion("Habitacion 3", "Estas en la habitacion 3. Hay puertas a la IZQUIERDA, DERECHA y has visto una llave dentro de un jarron."),
-        new Habitacion("Habitacion 4", "Estas en la habitacion 4. Hay una puerta a la IZQUIERDA")
+            new Habitacion("Inicio", "Estas en el inicio, hay puertas a la: IZQUIERDA, DERECHA y hay una nota en la mesa."),
+            new Habitacion("Habitacion 1", "Estas en la habitacion 1. Hay puertas a la IZQUIERDA, DERECHA."),
+            new Habitacion("Habitacion 2", "Estas en la habitacion 2. Hay una puerta a la DERECHA y has visto una llave en una mesa."),
+            new Habitacion("Habitacion 3", "Estas en la habitacion 3. Hay puertas a la IZQUIERDA, DERECHA y has visto una llave dentro de un jarron."),
+            new Habitacion("Habitacion 4", "Estas en la habitacion 4. Hay una puerta a la IZQUIERDA")
     };
 
 
@@ -314,6 +314,7 @@ public class Juego {
         System.out.println("Inventario: muestra los objetos que llevas contigo");
         System.out.println("Coger: intenta coger un objeto de la habitación actual");
         System.out.println("Abrir: abre un contenedor (usa llaves automáticamente)");
+        System.out.println("Combinar: combina dos objetos para crear algo nuevo");
         System.out.println("Salir: termina el juego");
     }
 
@@ -425,4 +426,51 @@ public class Juego {
         }
         return null;
     }
+    //Veremos los objetos combinables del mapa
+    private static void mostrarObjetosCombinables() {
+        System.out.println("Objetos para combinar:");
+
+        System.out.println("En tu inventario:");
+        boolean hayEnInventario = false;
+        for (Objeto obj : jugador.getInventario()) {
+            if (obj instanceof Combinable) {
+                System.out.println(obj.getNombre());
+                hayEnInventario = true;
+            }
+        }
+        if (!hayEnInventario) {
+            System.out.println("  (vacío)");
+        }
+
+        System.out.println("En la habitacion:");
+        boolean hayEnHabitacion = false;
+        for (Objeto obj : objetosMapa[jugador.getHabitacionActual()]) {
+            if (obj != null && obj instanceof Combinable) {
+                System.out.println(obj.getNombre());
+                hayEnHabitacion = true;
+            }
+        }
+        if (!hayEnHabitacion) {
+            System.out.println("  (nada)");
+        }
+    }
+
+   //Elimina un objeto del inventario o de la habitaion
+    private static boolean consumirObjeto(Objeto objeto) {
+        // Para quitar del inventario
+        if (jugador.quitarDelInventario(objeto)) {
+            return true;
+        }
+
+        // Para quitar del habitacion
+        for (int i = 0; i < objetosMapa[jugador.getHabitacionActual()].length; i++) {
+            if (objetosMapa[jugador.getHabitacionActual()][i] == objeto) {
+                objetosMapa[jugador.getHabitacionActual()][i] = null;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
