@@ -2,6 +2,7 @@ package aventura.app;
 
 import domain.*;
 import interfaces.Abrible;
+import interfaces.Combinable;
 import interfaces.Leible;
 
 import java.util.Locale;
@@ -203,6 +204,81 @@ public class Juego {
                                 }
                             } else {
                                 System.out.println("Esta cerrado.");
+                            }
+                        }
+                    }
+                }
+
+                case "combinar" -> {
+                    mostrarObjetosCombinables();
+
+                    int totalCombinales = 0;
+                    for (Objeto obj : jugador.getInventario()) {
+                        if (obj instanceof Combinable) totalCombinales++;
+                    }
+                    for (Objeto obj : objetosMapa[jugador.getHabitacionActual()]) {
+                        if (obj != null && obj instanceof Combinable) totalCombinales++;
+                    }
+                    if (totalCombinales < 2) {
+                        System.out.println("No tienes los objetos para combinar");
+                        break;
+                    }
+
+                    // Pedir primer objeto
+
+                    System.out.println("Que objeto quieres combinar primero: ");
+                    String nombre1 = scanner.nextLine().toLowerCase(Locale.ROOT);
+                    Objeto objeto1 = buscarObjeto(nombre1);
+
+                    if (!(objeto1 instanceof Combinable)) {
+                        System.out.println("El " + nombre1 + " no se puede combinar con nada.");
+                        break;
+                    }
+
+                    // Pedir segundo objeto
+
+                    System.out.println("Que objeto quieres combinar segundo: ");
+                    String nombre2 = scanner.nextLine().toLowerCase(Locale.ROOT);
+                    Objeto objeto2 = buscarObjeto(nombre2);
+
+                    if (objeto2 == null) {
+                        System.out.println("No se encuentra el objeto " + nombre2);
+                        break;
+                    }
+
+                    if (!(objeto2 instanceof Combinable)) {
+                        System.out.println("El " + nombre2 + " no se puede combinar con nada");
+                        break;
+                    }
+
+                    if (objeto1 == objeto2) {
+                        System.out.println("No puedes combinar un objeto con el mismo");
+                    }
+
+                    // Intentar combinar
+                    Combinable comb1 = (Combinable) objeto1;
+                    Objeto resultado = comb1.combinar(objeto2);
+
+                    if (resultado == null) {
+                        System.out.println("No puedes combinar " + objeto1.getNombre() + " con " + objeto2.getNombre());
+                    } else {
+                        System.out.println("Has combinado " + objeto1.getNombre() + " con " + objeto2.getNombre());
+                    }
+
+
+                    // Elimina los objetos usados
+                    consumirObjeto(objeto1);
+                    consumirObjeto(objeto2);
+
+                    if (jugador.agregarAlInventario(resultado)) {
+                        System.out.println("Has creado: " + resultado.getNombre() + " - " + resultado.getDescripcion());
+                    } else {
+                        System.out.println("Tu inventario esta lleno. El " + resultado.getNombre() + " cae al suelode la habitacion");
+                        // Dejar objeto en la habitacion
+                        for (int i = 0; i < objetosMapa[jugador.getHabitacionActual()].length; i++) {
+                            if (objetosMapa[jugador.getHabitacionActual()][i] == null) {
+                                objetosMapa[jugador.getHabitacionActual()][i] = resultado;
+                                break;
                             }
                         }
                     }
