@@ -232,5 +232,18 @@ public class Juego {
         }
         return false;
     }
-
+    /**
+     * Vamos a crear el metodo que busqie un objeto por nombre de la habitacion actual o en el inventario
+     *
+     */
+    private static Objeto buscarObjeto(String nombre) {
+        //Buscamos pirmero en la habitacion actual
+        for (Objeto obj : objetosMapa[jugador.getHabitacionActual()]) {
+            if (obj != null && obj.getNombre().equalsIgnoreCase(nombre)) {
+                return obj;
+            }
+        }
+        //Si no, que mire en el invetario
+        return jugador.buscarEnInventario(nombre);
+    }
 }
