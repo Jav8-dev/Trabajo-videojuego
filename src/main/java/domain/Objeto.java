@@ -19,5 +19,10 @@ public abstract class Objeto extends Entidad{
     public boolean isVisible() {
         return visible;
     }
+
+    @Override
+    public String toString() {
+        return getNombre();
+    }
 }
 //@author Jav8-dev|@version 1.0.
