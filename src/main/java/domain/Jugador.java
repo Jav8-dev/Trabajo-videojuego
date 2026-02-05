@@ -29,6 +29,10 @@ public class Jugador {
         return inventario;
     }
 
+    /*
+    Metodo para agregar los objetos al inventario
+     */
+
     public boolean agregarAlInventario(Objeto objeto) {
         if (!(objeto instanceof Inventariable)) {
             return false;
@@ -43,6 +47,10 @@ public class Jugador {
         return false;
     }
 
+    /*
+    Metodo para eliminar objetos al inventario
+     */
+
     public boolean quitarDelInventario(Objeto objeto) {
         for (int i = 0; i < inventario.length; i++) {
             if (inventario[i] == objeto) {
@@ -52,6 +60,10 @@ public class Jugador {
         }
         return false;
     }
+
+    /*
+    Metodo para buscar un objeto en el inventario
+     */
 
     public Objeto buscarEnInventario(String nombre) {
         for (Objeto objeto : inventario) {

@@ -8,7 +8,7 @@ public class Cuchilla extends Item implements Combinable{
     }
     @Override
     public Objeto combinar(Objeto otro) {
-        // se lo dejamos al palo
+        // Se lo dejamos al palo
         if (otro instanceof Palo palo) {
             return palo.combinar(this);
         }
