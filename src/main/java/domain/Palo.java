@@ -10,9 +10,9 @@ public class Palo extends Item implements Combinable {
 
     @Override
     public Objeto combinar(Objeto otro) {
-        // Comprueba si el otro objeto es un Trapo
-        if (otro instanceof Trapo) {
-            return new Antorcha("antorcha", "Una antorcha que ilumina");
+        // Comprueba si el otro objeto es un Cuchilla
+        if (otro instanceof Cuchilla) {
+            return new Navaja("antorcha", "Una antorcha que ilumina");
         }
 
         return null;

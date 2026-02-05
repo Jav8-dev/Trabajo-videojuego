@@ -2,8 +2,8 @@ package domain;
 
 import interfaces.Combinable;
 
-public class Trapo extends Item implements Combinable{
-    public Trapo( String nombre, String descripcion){
+public class Cuchilla extends Item implements Combinable{
+    public Cuchilla(String nombre, String descripcion){
         super(nombre, descripcion);
     }
     @Override
