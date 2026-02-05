@@ -26,10 +26,10 @@ public class Juego {
     // El mapa de habitaciones.
     // TODO: (Skin) ¡Rellenad esto con vuestras descripciones!
     private static Habitacion[] habitaciones = {
-            new Habitacion("Inicio", "Estas en el inicio, hay puertas a la: IZQUIERDA, DERECHA y hay una nota en la mesa."),
-            new Habitacion("Habitacion 1", "Estas en la habitacion 1. Hay puertas a la IZQUIERDA, DERECHA."),
+            new Habitacion("Inicio", "Estas en el inicio, hay puertas a la: IZQUIERDA, DERECHA y hay una nota en la mesa y un cajon."),
+            new Habitacion("Habitacion 1", "Estas en la habitacion 1. Hay puertas a la IZQUIERDA, DERECHA, tambien ves un palo (¿Servira para algo?)."),
             new Habitacion("Habitacion 2", "Estas en la habitacion 2. Hay una puerta a la DERECHA y has visto una llave en una mesa."),
-            new Habitacion("Habitacion 3", "Estas en la habitacion 3. Hay puertas a la IZQUIERDA, DERECHA y has visto una llave dentro de un jarron."),
+            new Habitacion("Habitacion 3", "Estas en la habitacion 3. Hay puertas a la IZQUIERDA, DERECHA y has visto un cofre cerrado."),
             new Habitacion("Habitacion 4", "Estas en la habitacion 4. Hay una puerta a la IZQUIERDA")
     };
 
@@ -38,11 +38,11 @@ public class Juego {
     // TODO: (Skin) Rellenad esto con vuestros objetos
     private static Objeto[][] objetosMapa = {
             {null, new Nota("nota", "Una nota con el codigo", "Pista: El codigo de la caja fuerte es A-101"), new Contenedor("cajon", "Un cajon de madera viejo", null)},           // Objetos en Habitación 0
-            {null, null},
+            {new Palo("palo","Palo: Se puede usar para crear objetos"), null},
             {new Llave("llave", "Una llave dorada", "A-101"), null},// Objetos en Habitación 2
-            {new Contenedor("cofre", "Un cofre del con objetos cerrado", "A-101",
-                    new Palo("palo", "Palo: Se puede usar para crear objetos"))},
-            {null, null}
+            {new Contenedor("cofre", "Un cofre del tesoro con objetos cerrado", "A-101",
+                    new Cuchilla("cuchilla", "Cuchilla: Se puede usar para crear objetos"))},
+            {new Llave("llave", "llave final", "1332"), null}
     };
 
     // El inventario del jugador.
