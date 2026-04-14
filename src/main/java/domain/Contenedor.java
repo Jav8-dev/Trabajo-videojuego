@@ -15,7 +15,7 @@ public class Contenedor extends Objeto implements Abrible {
      * @param descripcion   La descripción del contenedor.
      * @param visible       Indica si el contenedor es visible o no.
      * @param codigo        El código necesario para abrir el contenedor.
-     * @param contenido     El objeto contenido dentro del contenedor.
+     * @param contenido     El objeto contenido dentro del contenedor.asdfsdfsd
      */
     public Contenedor(String nombre, String descripcion, boolean visible, String codigo, Objeto contenido) {
         super(nombre, descripcion, visible);
