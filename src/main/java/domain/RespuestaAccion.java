@@ -1,5 +1,3 @@
 package domain;
 
-public record RespuestaAccion(boolean esExito, String mensaje) {
-
-}
+public record RespuestaAccion(boolean esExito, String mensaje) {}

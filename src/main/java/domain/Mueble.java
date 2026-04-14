@@ -1,10 +1,15 @@
 package domain;
 
 public class Mueble extends Objeto {
-
-    public Mueble(String nombre, String descripcion) {
-        super(nombre, descripcion);
+    /**
+     * Constructor de la clase Mueble.
+     *
+     * @param nombre      Nombre del mueble.
+     * @param descripcion Descripción del mueble.
+     * @param visible     Indica si el mueble es visible o no.
+     */
+    public Mueble(String nombre, String descripcion, boolean visible) {
+        super(nombre, descripcion, visible);
     }
-    //No tienen inventariable por lo que no se pieden coger
 }
 //@author Jav8-dev|@version 1.0.
