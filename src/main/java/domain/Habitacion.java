@@ -2,18 +2,28 @@ package domain;
 
 import exceptions.AventuraException;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Habitacion {
-    private static final int MAX_OBJETOS = 5;
+    private String id;
     private String descripcion;
-    private Objeto[] objetos; // Array de objetos reales, no Strings
+    private List<Objeto> objetos;
+    private Map<String, String> salidas;
 
     /**
      * Constructor de la clase Habitacion.
-     * @param desc Descripción de la habitación.
+     * @param id Id para la habitacion
+     * @param descripcion Descripción de la habitación.
      */
-    public Habitacion(String desc) {
-        this.descripcion = desc;
-        this.objetos = new Objeto[MAX_OBJETOS];
+
+    public Habitacion(String id, String descripcion) {
+        this.id = id;
+        this.descripcion = descripcion;
+        this.objetos = new ArrayList<>();
+        this.salidas = new HashMap<>();
     }
 
     /**
@@ -22,47 +32,58 @@ public class Habitacion {
      * @throws AventuraException Si no se puede agregar el objeto.
      */
     public void agregarObjeto(Objeto obj) throws AventuraException {
-        // Lógica para añadir en el primer hueco null
-        boolean added = false;
-        for(int i = 0; i < objetos.length; i++) {
-            if(objetos[i] == null) {
-                objetos[i] = obj;
-                return;
-            }
+        if (obj == null) {
+            throw new AventuraException("No puedes añadir un objeto nulo");
         }
-        if(!added) {
-            throw new AventuraException("No se puede agregar un objeto");
-        }
+        objetos.add(obj);
     }
 
     /**
      * Elimina un objeto de la habitación.
      * @param obj Objeto a eliminar.
-     * @return true si se eliminó el objeto, false si no se encontró.
      */
-    public boolean eliminarObjeto(Objeto obj) {
-        for(int i = 0; i < objetos.length; i++) {
-            if(objetos[i] != null && objetos[i].equals(obj)) {
-                objetos[i] = null;
-                return true;
-            }
-        }
+    public void eliminarObjeto(Objeto obj) {
+        objetos.remove(obj);
+    }
 
-        return false;
+    /**
+     *
+     * @param direccion Direccion de salida.
+     * @param idDestino Id de la habitacion de destino
+     */
+
+    public void agregarSalida(String direccion, String idDestino) {
+        salidas.put(direccion.toLowerCase(), idDestino);
+    }
+
+    /**
+     *
+     * @param direccion Direccion a consultar
+     * @return El Id de destino, o null si no existe.
+     */
+
+    public String getSalida(String direccion) {
+        return salidas.get(direccion.toLowerCase());
     }
 
     /**
      * Muestra la descripción de la habitación y los objetos presentes en ella.
-     * @return Descripción de la habitación y lista de objetos.
+     * @return Descripción de la habitación con objetos y salidas
      */
     public String mirar() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.descripcion).append("\n");
-        for(Objeto obj : objetos) {
-            if(obj != null) {
-                sb.append(" - ").append(obj.getNombre()).append("\n");
+        if (objetos.isEmpty()) {
+            sb.append("Objetos:\n");
+            for (Objeto objeto : objetos) {
+                sb.append(" - ").append(objeto.getNombre()).append("\n");
             }
         }
+
+        if (!salidas.isEmpty()) {
+            sb.append("Salidas: ").append(salidas.keySet()).append("\n");
+        }
+
         return sb.toString();
     }
 
@@ -70,8 +91,17 @@ public class Habitacion {
      * Obtiene los objetos presentes en la habitación.
      * @return Array de objetos en la habitación.
      */
-    public Objeto[] getObjetos() {
+    public List<Objeto> getObjetos() {
         return objetos;
+    }
+
+    /**
+     * Obtiene el mapa de salidas de la habitación.
+     * @return Mapa de salidas.
+     */
+
+    public Map<String, String> getSalidas() {
+        return salidas;
     }
 
     /**
