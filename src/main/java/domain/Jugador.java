@@ -10,7 +10,7 @@ public class Jugador {
 
     private String nombre;
     private Objeto[] inventario = new Objeto[MAX_INVENTARIO];
-    private int habitacionActual;
+    private String habitacionActual;
 
     /**
      * Constructor de la clase Jugador.
@@ -19,7 +19,7 @@ public class Jugador {
      */
     public Jugador(String nombre) {
         this.nombre = nombre;
-        this.habitacionActual = 0;
+        this.habitacionActual = "inicio";
     }
 
     /** Getters y Setters */
@@ -27,11 +27,11 @@ public class Jugador {
         return nombre;
     }
 
-    public int getHabitacionActual() {
+    public String getHabitacionActual() {
         return habitacionActual;
     }
 
-    public void setHabitacionActual(int habitacionActual) {
+    public void setHabitacionActual(String habitacionActual) {
         this.habitacionActual = habitacionActual;
     }
 
