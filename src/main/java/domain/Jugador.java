@@ -4,12 +4,15 @@ import exceptions.AventuraException;
 import exceptions.InventarioLlenoException;
 import interfaces.Inventariable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Jugador {
     private static final int MAX_INVENTARIO = 10;
 
     private String nombre;
-    private Objeto[] inventario = new Objeto[MAX_INVENTARIO];
+    private List<Objeto> inventario;
     private String habitacionActual;
 
     /**
@@ -20,6 +23,8 @@ public class Jugador {
     public Jugador(String nombre) {
         this.nombre = nombre;
         this.habitacionActual = "inicio";
+        this.inventario = new ArrayList<>();
+
     }
 
     /** Getters y Setters */
@@ -35,8 +40,8 @@ public class Jugador {
         this.habitacionActual = habitacionActual;
     }
 
-    public Objeto[] getInventario() {
-        return inventario;
+    public void setInventario(List<Objeto> inventario) {
+        this.inventario = inventario;
     }
 
     /**
@@ -45,29 +50,19 @@ public class Jugador {
      * @param objeto Objeto a coger.
      * @throws AventuraException Si el objeto no es inventariable o el inventario está lleno.
      */
-    public void coger(Objeto objeto) throws AventuraException{
-        /*
-        Para poder coger un objeto, deben pasar dos cosas:
-        1. Que el objeto sea Inventariable
-        2. Que haya espacio en el inventario
-        */
-
+    /**
+     * Método para que el jugador coja un objeto.
+     * @param objeto Objeto a coger.
+     * @throws AventuraException Si el objeto no es inventariable o el inventario está lleno.
+     */
+    public void coger(Objeto objeto) throws AventuraException {
         if (!(objeto instanceof Inventariable)) {
             throw new AventuraException("El objeto %s no se puede coger.".formatted(objeto.getNombre()));
         }
-
-        boolean inventarioLleno = true;
-        for (int i = 0; i < inventario.length; i++) {
-            if (inventario[i] == null) {
-                inventario[i] = objeto;
-                inventarioLleno = false;
-                break; // Salimos del bucle al coger el objeto
-            }
-        }
-        if (inventarioLleno) {
+        if (inventario.size() >= MAX_INVENTARIO) {
             throw new InventarioLlenoException("El inventario está lleno. No puedes coger más objetos.");
         }
-
+        inventario.add(objeto);
     }
 
     /**
@@ -77,13 +72,7 @@ public class Jugador {
      * @return true si se eliminó el objeto, false si no se encontró.
      */
     public boolean eliminarDeInventario(Objeto objeto) {
-        for (int i = 0; i < inventario.length; i++) {
-            if (inventario[i] != null && inventario[i].equals(objeto)) {
-                inventario[i] = null;
-                return true; // Salimos del método al eliminar el objeto
-            }
-        }
-        return false; // No se encontró el objeto en el inventario
+        return inventario.remove(objeto);
     }
 
     /**
@@ -94,11 +83,10 @@ public class Jugador {
      */
     public Objeto buscarEnInventario(String nombre) {
         for (Objeto objeto : inventario) {
-            if (objeto != null && objeto.getNombre().equalsIgnoreCase(nombre)) {
+            if (objeto.getNombre().equalsIgnoreCase(nombre)) {
                 return objeto;
             }
         }
-        return null; // No lo tienes encima
+        return null;
     }
-
 }
