@@ -73,7 +73,7 @@ public class Habitacion {
     public String mirar() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.descripcion).append("\n");
-        if (objetos.isEmpty()) {
+        if (!objetos.isEmpty()) {
             sb.append("Objetos:\n");
             for (Objeto objeto : objetos) {
                 sb.append(" - ").append(objeto.getNombre()).append("\n");
@@ -116,6 +116,10 @@ public class Habitacion {
             }
         }
         return null;
+    }
+
+    public String getId() {
+        return id;
     }
 }
 
