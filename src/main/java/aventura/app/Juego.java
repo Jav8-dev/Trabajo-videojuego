@@ -63,25 +63,25 @@ public class Juego {
 
         try {
            // HABITACIÓN 0
-            Habitacion inicio = new Habitacion("Estas en el inicio, hay puertas a la IZQUIERDA y DERECHA. Hay una nota en la mesa y un cajon.");
+            Habitacion inicio = new Habitacion("habinicio","Estas en el inicio, hay puertas a la IZQUIERDA y DERECHA. Hay una nota en la mesa y un cajon.");
             inicio.agregarObjeto(new Nota("Nota", "Una nota con el codigo", true, "Pista: El codigo de la caja fuerte es A-101"));
             // El cajón es un contenedor que no necesita llave (null)
             inicio.agregarObjeto(new Contenedor("Cajon", "Un cajon de madera viejo", true, null, null));
             habitaciones[0] = inicio;
 
             // HABITACIÓN 1 EL PALO
-            Habitacion hab1 = new Habitacion("Estas en la habitacion 1. Hay puertas a la IZQUIERDA y DERECHA. Ves un palo largo en el suelo.");
+            Habitacion hab1 = new Habitacion("hab1","Estas en la habitacion 1. Hay puertas a la IZQUIERDA y DERECHA. Ves un palo largo en el suelo.");
             hab1.agregarObjeto(new Item("Palo", "Un palo resistente. Se podría usar para crear algo.", true));
             habitaciones[1] = hab1;
 
             // HABITACIÓN 2: LA LLAVE
-            Habitacion hab2 = new Habitacion("Estas en la habitacion 2. Hay una puerta a la DERECHA y has visto una llave dorada en una mesa.");
+            Habitacion hab2 = new Habitacion("hab2","Estas en la habitacion 2. Hay una puerta a la DERECHA y has visto una llave dorada en una mesa.");
             // Llave que abre el código A-101
             hab2.agregarObjeto(new Llave("Llave dorada", "Una llave brillante con el grabado A-101", true, "A-101"));
             habitaciones[2] = hab2;
 
             // HABITACIÓN 3: EL COFRE
-            Habitacion hab3 = new Habitacion("Estas en la habitacion 3. Hay puertas a la IZQUIERDA y DERECHA. Ves un cofre de metal cerrado.");
+            Habitacion hab3 = new Habitacion("hab3","Estas en la habitacion 3. Hay puertas a la IZQUIERDA y DERECHA. Ves un cofre de metal cerrado.");
             // Creamos la cuchilla que irá en el cofre
             Item cuchilla = new Item("Cuchilla", "Una cuchilla muy afilada.", true);
             // El cofre necesita el código A-101 para abrirse y contiene la cuchilla
@@ -89,7 +89,7 @@ public class Juego {
             habitaciones[3] = hab3;
 
             // HABITACIÓN 4: FINAL
-            Habitacion hab4 = new Habitacion("Estas en la habitacion 4. Hay una puerta a la IZQUIERDA. Al fondo ves una luz.");
+            Habitacion hab4 = new Habitacion("hab4","Estas en la habitacion 4. Hay una puerta a la IZQUIERDA. Al fondo ves una luz.");
             hab4.agregarObjeto(new Llave("Llave final", "Una llave pesada con el número 1332", true, "1332"));
             habitaciones[4] = hab4;
 
