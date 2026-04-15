@@ -444,19 +444,14 @@ public class Juego {
      */
     private void mostrarObjetosInventario() {
         System.out.print("Objetos en el inventario: ");
-        boolean hayObjetos = false;
-        boolean hayMasDeUnObjeto = false;
+        List<String> nombres = new ArrayList<>();
+
         for (Objeto objeto : jugador.getInventario()) {
             if (objeto != null) {
-                hayObjetos = true;
-                System.out.print(hayMasDeUnObjeto ? ", " + objeto : objeto);
-                hayMasDeUnObjeto = true;
+                nombres.add(objeto.getNombre());
             }
         }
-        if (!hayObjetos) {
-            System.out.print("No hay objetos.");
-        }
-        System.out.println();
+        System.out.println(nombres.isEmpty() ? "No hay objetos." : String.join(", ", nombres));
     }
 
     /**
@@ -472,26 +467,18 @@ public class Juego {
      */
     private void mostrarObjetosAbribles() {
         System.out.print("Contenedores disponibles: ");
-        boolean hayObjetos = false;
-        boolean hayMasDeUnObjeto = false;
+        List<String> nombres = new ArrayList<>();
         for (Objeto objeto : getHabitacionActual().getObjetos()) {
             if (objeto instanceof Abrible) {
-                hayObjetos = true;
-                System.out.print(hayMasDeUnObjeto ? ", " + objeto : objeto);
-                hayMasDeUnObjeto = true;
+                nombres.add(objeto.getNombre());
             }
         }
         for (Objeto objeto : jugador.getInventario()) {
             if (objeto instanceof Abrible) {
-                hayObjetos = true;
-                System.out.print(hayMasDeUnObjeto ? ", " + objeto : objeto);
-                hayMasDeUnObjeto = true;
+                nombres.add(objeto.getNombre());
             }
         }
-        if (!hayObjetos) {
-            System.out.print("No hay nada para abrir ahora mismo.");
-        }
-        System.out.println();
+        System.out.println(nombres.isEmpty() ? "No hay objetos en el inventario" : String.join(", ", nombres));
     }
 
     /**
