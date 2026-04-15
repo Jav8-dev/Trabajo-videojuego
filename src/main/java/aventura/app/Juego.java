@@ -10,8 +10,7 @@ import interfaces.Inventariable;
 import interfaces.Leible;
 import io.MiEntradaSalida;
 
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Clase principal del juego "Tu Propia Aventura".
@@ -30,7 +29,7 @@ public class Juego {
     private String descripcionJuego;
 
     // El mapa de habitaciones.
-    private Habitacion[] habitaciones;
+    private Map<String, Habitacion> habitaciones;
 
     // El inventario ahora se ha movido a la clase Jugador
 
@@ -46,7 +45,7 @@ public class Juego {
      */
     public Juego(Jugador jugador) {
         // Inicialización del mapa de habitaciones
-        habitaciones = new Habitacion[5]; // Cambia el tamaño según el número de habitaciones que tengas
+        habitaciones = new HashMap<>(); // Cambia el tamaño según el número de habitaciones que tengas
         this.jugador = jugador;
         inicializarJuego();
     }
@@ -67,18 +66,18 @@ public class Juego {
             inicio.agregarObjeto(new Nota("Nota", "Una nota con el codigo", true, "Pista: El codigo de la caja fuerte es A-101"));
             // El cajón es un contenedor que no necesita llave (null)
             inicio.agregarObjeto(new Contenedor("Cajon", "Un cajon de madera viejo", true, null, null));
-            habitaciones[0] = inicio;
+            habitaciones.put("inicio", inicio);
 
             // HABITACIÓN 1 EL PALO
             Habitacion hab1 = new Habitacion("hab1","Estas en la habitacion 1. Hay puertas a la IZQUIERDA y DERECHA. Ves un palo largo en el suelo.");
             hab1.agregarObjeto(new Item("Palo", "Un palo resistente. Se podría usar para crear algo.", true));
-            habitaciones[1] = hab1;
+            habitaciones.put("hab1", hab1);
 
             // HABITACIÓN 2: LA LLAVE
             Habitacion hab2 = new Habitacion("hab2","Estas en la habitacion 2. Hay una puerta a la DERECHA y has visto una llave dorada en una mesa.");
             // Llave que abre el código A-101
             hab2.agregarObjeto(new Llave("Llave dorada", "Una llave brillante con el grabado A-101", true, "A-101"));
-            habitaciones[2] = hab2;
+            habitaciones.put("hab2", hab2);
 
             // HABITACIÓN 3: EL COFRE
             Habitacion hab3 = new Habitacion("hab3","Estas en la habitacion 3. Hay puertas a la IZQUIERDA y DERECHA. Ves un cofre de metal cerrado.");
@@ -86,12 +85,27 @@ public class Juego {
             Item cuchilla = new Item("Cuchilla", "Una cuchilla muy afilada.", true);
             // El cofre necesita el código A-101 para abrirse y contiene la cuchilla
             hab3.agregarObjeto(new Contenedor("Cofre", "Un cofre del tesoro que requiere una llave A-101", true, "A-101", cuchilla));
-            habitaciones[3] = hab3;
+            habitaciones.put("hab3", hab3);
 
             // HABITACIÓN 4: FINAL
             Habitacion hab4 = new Habitacion("hab4","Estas en la habitacion 4. Hay una puerta a la IZQUIERDA. Al fondo ves una luz.");
             hab4.agregarObjeto(new Llave("Llave final", "Una llave pesada con el número 1332", true, "1332"));
-            habitaciones[4] = hab4;
+            habitaciones.put("hab4", hab4);
+
+            jugador.setHabitacionActual("inicio");
+
+            inicio.agregarSalida("derecha","hab1");
+            inicio.agregarSalida("izquierda", "hab2");
+
+            hab1.agregarSalida("izquierda", "inicio");
+            hab1.agregarSalida("derecha", "hab3");
+
+            hab2.agregarSalida("derecha", "inicio");
+
+            hab3.agregarSalida("izquierda", "hab1");
+            hab3.agregarSalida("derecha", "hab4");
+
+            hab4.agregarSalida("izquierda", "hab3");
 
         } catch (AventuraException e) {
             System.err.println("Error crítico al montar el laberinto: " + e.getMessage());
@@ -153,8 +167,9 @@ public class Juego {
      * Mueve al jugador a la habitación de la izquierda si es posible.
      */
     private void cmdIrIzquierda() {
-        if (jugador.getHabitacionActual() > 0) {
-            jugador.setHabitacionActual(jugador.getHabitacionActual() - 1);
+        String destino = getHabitacionActual().getSalida("izquierda");
+        if (destino != null) {
+            jugador.setHabitacionActual(destino);
             System.out.println("Te has movido a la habitación de la izquierda.");
             mostrarInfoHabitacion();
         } else {
@@ -166,8 +181,9 @@ public class Juego {
      * Mueve al jugador a la habitación de la derecha si es posible.
      */
     private void cmdIrDerecha() {
-        if (jugador.getHabitacionActual() < habitaciones.length - 1) {
-            jugador.setHabitacionActual(jugador.getHabitacionActual() + 1);
+        String destino = getHabitacionActual().getSalida("derecha");
+        if (destino != null) {
+            jugador.setHabitacionActual(destino);
             System.out.println("Te has movido a la habitación de la derecha.");
             mostrarInfoHabitacion();
         } else {
@@ -329,21 +345,17 @@ public class Juego {
     private void procesarComandoCoger(Objeto objetoACoger) {
         assert objetoACoger != null : "El objeto a coger no puede ser null";
 
-        boolean objetoEncontrado = false;
-        for (int i = 0; i < getHabitacionActual().getObjetos().length && !objetoEncontrado; i++) {
-            if (objetoACoger.equals(getHabitacionActual().getObjetos()[i])) {
-                try {
-                    objetoEncontrado = true;
-                    jugador.coger(objetoACoger);
-                    getHabitacionActual().getObjetos()[i] = null; // Eliminar el objeto de la habitación
-                    System.out.println("Has cogido " + objetoACoger.getNombre() + " y lo has añadido a tu inventario.");
-                } catch (AventuraException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
+        if (!getHabitacionActual().getObjetos().contains(objetoACoger)) {
+            System.out.println("No hay ningun objeto llamado " + objetoACoger.getNombre() + " en esta habitacion");
+            return;
         }
-        if (!objetoEncontrado) {
-            System.out.println("No hay ningún objeto llamado " + objetoACoger.getNombre() + " en esta habitación.");
+
+        try {
+            jugador.coger(objetoACoger);
+            getHabitacionActual().eliminarObjeto(objetoACoger);
+            System.out.println("Has cogido " + objetoACoger.getNombre() + " y lo ha añadido a tu inventario.");
+        } catch (AventuraException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -406,19 +418,16 @@ public class Juego {
      */
     private void mostrarObjetosHabitacion() {
         System.out.print("Objetos en la habitación: ");
-        boolean hayObjetos = false;
-        boolean hayMasDeUnObjeto = false;
-        for (Objeto objeto : getHabitacionActual().getObjetos()) {
+        List<Objeto> objetos = getHabitacionActual().getObjetos();
+        List<String> nombres = new ArrayList<>();
+
+        for (Objeto objeto : objetos) {
             if (objeto != null && objeto.isVisible()) {
-                hayObjetos = true;
-                System.out.print(hayMasDeUnObjeto ? ", " + objeto : objeto);
-                hayMasDeUnObjeto = true;
+                nombres.add(objeto.getNombre());
             }
         }
-        if (!hayObjetos) {
-            System.out.print("No hay objetos.");
-        }
-        System.out.println();
+
+        System.out.println(nombres.isEmpty() ? "No hay objetos" : String.join(", ", nombres));
     }
 
     /**
@@ -427,12 +436,7 @@ public class Juego {
      * @return true si hay al menos un objeto, false si no hay ninguno.
      */
     private boolean hayObjetosEnHabitacion() {
-        for (Objeto objeto : getHabitacionActual().getObjetos()) {
-            if (objeto != null) {
-                return true;
-            }
-        }
-        return false;
+        return !getHabitacionActual().getObjetos().isEmpty();
     }
 
     /**
@@ -513,7 +517,7 @@ public class Juego {
      * @return La habitación en la que se encuentra el jugador.
      */
     private Habitacion getHabitacionActual() {
-        return habitaciones[jugador.getHabitacionActual()];
+        return habitaciones.get(jugador.getHabitacionActual());
     }
 
     /**
