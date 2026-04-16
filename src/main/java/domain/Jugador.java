@@ -44,6 +44,9 @@ public class Jugador {
         this.inventario = inventario;
     }
 
+    public List<Objeto> getInventario() {
+        return inventario;
+    }
     /**
      * Método para que el jugador coja un objeto.
      *
