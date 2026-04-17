@@ -1,0 +1,100 @@
+{
+  "descripcion": "Matapiojos DLC - Aventura de cuchillos",
+  "habitaciones": {
+    "hab1": {
+      "id": "hab1",
+      "descripcion": "Estas en la habitacion 1. Hay puertas a la IZQUIERDA y DERECHA. Ves un palo largo en el suelo.",
+      "objetos": [
+        {
+          "visible": true,
+          "nombre": "Palo",
+          "descripcion": "Un palo resistente. Se podría usar para crear algo.",
+          "tipo": "item"
+        }
+      ],
+      "salidas": {
+        "izquierda": "inicio",
+        "derecha": "hab3"
+      }
+    },
+    "inicio": {
+      "id": "habinicio",
+      "descripcion": "Estas en el inicio, hay puertas a la IZQUIERDA y DERECHA. Hay una nota en la mesa y un cajon.",
+      "objetos": [
+        {
+          "texto": "Pista: El codigo de la caja fuerte es A-101",
+          "visible": true,
+          "nombre": "Nota",
+          "descripcion": "Una nota con el codigo",
+          "tipo": "nota"
+        },
+        {
+          "abierto": false,
+          "visible": true,
+          "nombre": "Cajon",
+          "descripcion": "Un cajon de madera viejo",
+          "tipo": "contenedor"
+        }
+      ],
+      "salidas": {
+        "izquierda": "hab2",
+        "derecha": "hab1"
+      }
+    },
+    "hab2": {
+      "id": "hab2",
+      "descripcion": "Estas en la habitacion 2. Hay una puerta a la DERECHA y has visto una llave dorada en una mesa.",
+      "objetos": [
+        {
+          "codigoSeguridad": "A-101",
+          "visible": true,
+          "nombre": "Llave dorada",
+          "descripcion": "Una llave brillante con el grabado A-101",
+          "tipo": "llave"
+        }
+      ],
+      "salidas": {
+        "derecha": "inicio"
+      }
+    },
+    "hab3": {
+      "id": "hab3",
+      "descripcion": "Estas en la habitacion 3. Hay puertas a la IZQUIERDA y DERECHA. Ves un cofre de metal cerrado.",
+      "objetos": [
+        {
+          "abierto": false,
+          "codigoNecesario": "A-101",
+          "contenido": {
+            "visible": true,
+            "nombre": "Cuchilla",
+            "descripcion": "Una cuchilla muy afilada."
+          },
+          "visible": true,
+          "nombre": "Cofre",
+          "descripcion": "Un cofre del tesoro que requiere una llave A-101",
+          "tipo": "contenedor"
+        }
+      ],
+      "salidas": {
+        "izquierda": "hab1",
+        "derecha": "hab4"
+      }
+    },
+    "hab4": {
+      "id": "hab4",
+      "descripcion": "Estas en la habitacion 4. Hay una puerta a la IZQUIERDA. Al fondo ves una luz.",
+      "objetos": [
+        {
+          "codigoSeguridad": "1332",
+          "visible": true,
+          "nombre": "Llave final",
+          "descripcion": "Una llave pesada con el número 1332",
+          "tipo": "llave"
+        }
+      ],
+      "salidas": {
+        "izquierda": "hab3"
+      }
+    }
+  }
+}

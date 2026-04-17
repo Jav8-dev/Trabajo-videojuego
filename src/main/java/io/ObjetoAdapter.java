@@ -6,16 +6,22 @@ import domain.*;
 import java.lang.reflect.Type;
 
 public class ObjetoAdapter implements JsonSerializer<Objeto>, JsonDeserializer<Objeto> {
-private static final String CAMPO_TIPO="tipo";
+
+private static final String CAMPO_TIPO = "tipo";
+
+private static final Gson GSON_DELEGADO = new GsonBuilder().create();
+
 @Override
     public JsonElement serialize(Objeto src, Type typeOfSrc, JsonSerializationContext context){
     //Obtener el tipo del obheto
     String tipo = src.getClass().getSimpleName().toLowerCase();
 
     //Serializamos el objeto sin usar este adapter
-    JsonObject jsonObject = context.serialize(src, src.getClass()).getAsJsonObject();
+    JsonObject jsonObject = GSON_DELEGADO
+            .toJsonTree(src, src.getClass())
+            .getAsJsonObject();
 
-    jsonObject.addProperty(CAMPO_TIPO, tipo);
+    jsonObject.addProperty(CAMPO_TIPO, src.getClass().getSimpleName().toLowerCase());
     return jsonObject;
 }
     @Override
