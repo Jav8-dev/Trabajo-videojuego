@@ -9,6 +9,7 @@ import interfaces.Combinable;
 import interfaces.Inventariable;
 import interfaces.Leible;
 import io.MiEntradaSalida;
+import io.Migrador;
 
 import java.util.*;
 
@@ -112,12 +113,19 @@ public class Juego {
         }
     }
 
+    public Map<String, Habitacion> getHabitaciones() {
+        return habitaciones;
+    }
+
 
     public static void main(String[] args) {
         Juego juego = new Juego(new Jugador("Jugador1"));
-        juego.iniciar();
+        Migrador.migrar(juego.getHabitaciones());
 
-        System.out.println("¡Gracias por jugar!");
+        // juego.iniciar();
+        // System.out.println("¡Gracias por jugar!");
+
+//        System.out.println("¡Gracias por jugar!");
 
     }
 
