@@ -1,6 +1,7 @@
-package domain;
+package io;
 
 import com.google.gson.*;
+import domain.*;
 
 import java.lang.reflect.Type;
 
@@ -36,6 +37,8 @@ private static final String CAMPO_TIPO="tipo";
             case "contenedor" -> context.deserialize(jsonObject, Contenedor.class);
             case "mueble"     -> context.deserialize(jsonObject, Mueble.class);
             case "item"       -> context.deserialize(jsonObject, Item.class);
+            case "mangorotollave" -> context.deserialize(jsonObject, MangoRotoLlave.class);
+            case "palorotollave" -> context.deserialize(jsonObject, PaloRotoLlave.class);
             default -> throw new JsonParseException("Tipo de objeto desconocido: '" + tipo + "'");
         };
     }
