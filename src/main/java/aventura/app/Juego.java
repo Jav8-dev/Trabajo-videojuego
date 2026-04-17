@@ -122,10 +122,9 @@ public class Juego {
         Juego juego = new Juego(new Jugador("Jugador1"));
         Migrador.migrar(juego.getHabitaciones());
 
-        // juego.iniciar();
-        // System.out.println("¡Gracias por jugar!");
+        juego.iniciar();
+        System.out.println("¡Gracias por jugar!");
 
-//        System.out.println("¡Gracias por jugar!");
 
     }
 
