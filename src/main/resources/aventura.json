@@ -1,5 +1,6 @@
 {
-  "descripcion": "Matapiojos DLC - Aventura de cuchillos",
+  "descripcion": "Estabas caminando por el matapiojos tranquilamente por la noche, de repente te intentan asaltar, huyendo tropiezas y te das un duro golpe en la cabeza. Despiertas en un sitio tétrico, este sitio parece un laberinto sin final, las paredes son del mismo color y la iluminación es tenue y calurosa. ¿Qué vas a hacer ahora?"
+,
   "habitaciones": {
     "hab1": {
       "id": "hab1",
@@ -9,7 +10,7 @@
           "visible": true,
           "nombre": "Palo",
           "descripcion": "Un palo resistente. Se podría usar para crear algo.",
-          "tipo": "palo"
+          "tipo": "domain.Palo"
         }
       ],
       "salidas": {
@@ -26,14 +27,14 @@
           "visible": true,
           "nombre": "Nota",
           "descripcion": "Una nota con el codigo",
-          "tipo": "nota"
+          "tipo": "domain.Nota"
         },
         {
           "abierto": false,
           "visible": true,
           "nombre": "Cajon",
           "descripcion": "Un cajon de madera viejo",
-          "tipo": "contenedor"
+          "tipo": "domain.Contenedor"
         }
       ],
       "salidas": {
@@ -50,7 +51,7 @@
           "visible": true,
           "nombre": "Llave dorada",
           "descripcion": "Una llave brillante con el grabado A-101",
-          "tipo": "llave"
+          "tipo": "domain.Llave"
         }
       ],
       "salidas": {
@@ -67,12 +68,13 @@
           "contenido": {
             "visible": true,
             "nombre": "Cuchilla",
-            "descripcion": "Una cuchilla muy afilada."
+            "descripcion": "Una cuchilla muy afilada.",
+            "tipo": "domain.Cuchilla"
           },
           "visible": true,
           "nombre": "Cofre",
           "descripcion": "Un cofre del tesoro que requiere una llave A-101",
-          "tipo": "contenedor"
+          "tipo": "domain.Contenedor"
         }
       ],
       "salidas": {
@@ -89,7 +91,7 @@
           "visible": true,
           "nombre": "Llave final",
           "descripcion": "Una llave pesada con el número 1332",
-          "tipo": "llave"
+          "tipo": "domain.Llave"
         }
       ],
       "salidas": {

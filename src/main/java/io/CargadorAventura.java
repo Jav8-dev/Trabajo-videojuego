@@ -32,16 +32,18 @@ public class CargadorAventura {
 
         // Construimos el Gson con el adapter registrado
         gson = new GsonBuilder()
-                .registerTypeHierarchyAdapter(Objeto.class, new ObjetoAdapter())
+                .registerTypeAdapter(Objeto.class, new ObjetoAdapter())
                 .setPrettyPrinting()
                 .create();
     }
 
    // Lee el json y deuvelve el mapa con las habitaciones
-    public Map<String, Habitacion> cargarMundoBase() throws IOException {
-        try (var reader = Files.newBufferedReader(archivoAventura)) {
-            AventuraConfig config = gson.fromJson(reader, AventuraConfig.class);
-            return config.getHabitaciones();
+    public AventuraConfig cargarMundoBase() throws IOException {
+        try {
+            return gson.fromJson(Files.newBufferedReader(archivoAventura), AventuraConfig.class);
+        }catch (IOException e){
+            System.out.println(e.getMessage());
         }
+        return null;
     }
 }
