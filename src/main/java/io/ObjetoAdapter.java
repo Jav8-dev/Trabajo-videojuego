@@ -43,8 +43,8 @@ private static final Gson GSON_DELEGADO = new GsonBuilder().create();
             case "contenedor" -> context.deserialize(jsonObject, Contenedor.class);
             case "mueble"     -> context.deserialize(jsonObject, Mueble.class);
             case "item"       -> context.deserialize(jsonObject, Item.class);
-            case "mangorotollave" -> context.deserialize(jsonObject, MangoRotoLlave.class);
-            case "palorotollave" -> context.deserialize(jsonObject, PaloRotoLlave.class);
+            case "mangorotollave" -> context.deserialize(jsonObject, Cuchilla.class);
+            case "palorotollave" -> context.deserialize(jsonObject, Palo.class);
             default -> throw new JsonParseException("Tipo de objeto desconocido: '" + tipo + "'");
         };
     }

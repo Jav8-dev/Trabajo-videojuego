@@ -71,7 +71,7 @@ public class Juego {
 
             // HABITACIÓN 1 EL PALO
             Habitacion hab1 = new Habitacion("hab1","Estas en la habitacion 1. Hay puertas a la IZQUIERDA y DERECHA. Ves un palo largo en el suelo.");
-            hab1.agregarObjeto(new Item("Palo", "Un palo resistente. Se podría usar para crear algo.", true));
+            hab1.agregarObjeto(new Palo());
             habitaciones.put("hab1", hab1);
 
             // HABITACIÓN 2: LA LLAVE
@@ -83,7 +83,7 @@ public class Juego {
             // HABITACIÓN 3: EL COFRE
             Habitacion hab3 = new Habitacion("hab3","Estas en la habitacion 3. Hay puertas a la IZQUIERDA y DERECHA. Ves un cofre de metal cerrado.");
             // Creamos la cuchilla que irá en el cofre
-            Item cuchilla = new Item("Cuchilla", "Una cuchilla muy afilada.", true);
+            Item cuchilla = new Cuchilla();
             // El cofre necesita el código A-101 para abrirse y contiene la cuchilla
             hab3.agregarObjeto(new Contenedor("Cofre", "Un cofre del tesoro que requiere una llave A-101", true, "A-101", cuchilla));
             habitaciones.put("hab3", hab3);

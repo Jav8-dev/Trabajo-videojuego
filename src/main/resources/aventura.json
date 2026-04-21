@@ -9,7 +9,7 @@
           "visible": true,
           "nombre": "Palo",
           "descripcion": "Un palo resistente. Se podría usar para crear algo.",
-          "tipo": "item"
+          "tipo": "palo"
         }
       ],
       "salidas": {
