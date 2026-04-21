@@ -37,7 +37,13 @@ public class CargadorAventura {
                 .create();
     }
 
-   // Lee el json y deuvelve el mapa con las habitaciones
+
+    /**
+     * Lee el archivo JSON de la aventura y devuelve la configuración del juego,
+     * incluyendo la descripción general y el mapa de habitaciones.
+     *
+     * @throws IOException Si hay un problema al acceder al archivo JSON.
+     */
     public AventuraConfig cargarMundoBase() throws IOException {
         try {
             return gson.fromJson(Files.newBufferedReader(archivoAventura), AventuraConfig.class);
