@@ -8,9 +8,12 @@ import interfaces.Abrible;
 import interfaces.Combinable;
 import interfaces.Inventariable;
 import interfaces.Leible;
+import io.AventuraConfig;
+import io.CargadorAventura;
 import io.MiEntradaSalida;
 import io.Migrador;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -55,61 +58,15 @@ public class Juego {
      * Inicializa el juego creando las habitaciones y los objetos.
      */
     private void inicializarJuego() {
-
-        descripcionJuego = "Estabas caminando por el matapiojos tranquilamente por la noche, de repente te intentan asaltar, " +
-                "huyendo tropiezas y te das un duro golpe en la cabeza. Despiertas en un sitio tétrico, " +
-                "este sitio parece un laberinto sin final, las paredes son del mismo color y la iluminación es tenue y calurosa. " +
-                "¿Qué vas a hacer ahora?";
-
         try {
-           // HABITACIÓN 0
-            Habitacion inicio = new Habitacion("habinicio","Estas en el inicio, hay puertas a la IZQUIERDA y DERECHA. Hay una nota en la mesa y un cajon.");
-            inicio.agregarObjeto(new Nota("Nota", "Una nota con el codigo", true, "Pista: El codigo de la caja fuerte es A-101"));
-            // El cajón es un contenedor que no necesita llave (null)
-            inicio.agregarObjeto(new Contenedor("Cajon", "Un cajon de madera viejo", true, null, null));
-            habitaciones.put("inicio", inicio);
-
-            // HABITACIÓN 1 EL PALO
-            Habitacion hab1 = new Habitacion("hab1","Estas en la habitacion 1. Hay puertas a la IZQUIERDA y DERECHA. Ves un palo largo en el suelo.");
-            hab1.agregarObjeto(new Palo());
-            habitaciones.put("hab1", hab1);
-
-            // HABITACIÓN 2: LA LLAVE
-            Habitacion hab2 = new Habitacion("hab2","Estas en la habitacion 2. Hay una puerta a la DERECHA y has visto una llave dorada en una mesa.");
-            // Llave que abre el código A-101
-            hab2.agregarObjeto(new Llave("Llave dorada", "Una llave brillante con el grabado A-101", true, "A-101"));
-            habitaciones.put("hab2", hab2);
-
-            // HABITACIÓN 3: EL COFRE
-            Habitacion hab3 = new Habitacion("hab3","Estas en la habitacion 3. Hay puertas a la IZQUIERDA y DERECHA. Ves un cofre de metal cerrado.");
-            // Creamos la cuchilla que irá en el cofre
-            Item cuchilla = new Cuchilla();
-            // El cofre necesita el código A-101 para abrirse y contiene la cuchilla
-            hab3.agregarObjeto(new Contenedor("Cofre", "Un cofre del tesoro que requiere una llave A-101", true, "A-101", cuchilla));
-            habitaciones.put("hab3", hab3);
-
-            // HABITACIÓN 4: FINAL
-            Habitacion hab4 = new Habitacion("hab4","Estas en la habitacion 4. Hay una puerta a la IZQUIERDA. Al fondo ves una luz.");
-            hab4.agregarObjeto(new Llave("Llave final", "Una llave pesada con el número 1332", true, "1332"));
-            habitaciones.put("hab4", hab4);
-
+            CargadorAventura cargador = new CargadorAventura();
+            cargador.cargarConfiguracion();
+            AventuraConfig aventuraMundo = cargador.cargarMundoBase();
+            this.descripcionJuego = aventuraMundo.getDescripcion();
+            this.habitaciones = aventuraMundo.getHabitaciones();
             jugador.setHabitacionActual("inicio");
-
-            inicio.agregarSalida("derecha","hab1");
-            inicio.agregarSalida("izquierda", "hab2");
-
-            hab1.agregarSalida("izquierda", "inicio");
-            hab1.agregarSalida("derecha", "hab3");
-
-            hab2.agregarSalida("derecha", "inicio");
-
-            hab3.agregarSalida("izquierda", "hab1");
-            hab3.agregarSalida("derecha", "hab4");
-
-            hab4.agregarSalida("izquierda", "hab3");
-
-        } catch (AventuraException e) {
-            System.err.println("Error crítico al montar el laberinto: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error crítico al cargar el mundo: " + e.getMessage());
         }
     }
 
@@ -120,8 +77,7 @@ public class Juego {
 
     public static void main(String[] args) {
         Juego juego = new Juego(new Jugador("Jugador1"));
-        Migrador.migrar(juego.getHabitaciones());
-
+        //Migrador.migrar(juego.getHabitaciones());
         juego.iniciar();
         System.out.println("¡Gracias por jugar!");
 
@@ -153,8 +109,7 @@ public class Juego {
             switch (comando) {
                 case "mirar" -> mostrarInfoHabitacion();
                 case "inventario" -> mostrarObjetosInventario();
-                case "ir izquierda" -> cmdIrIzquierda();
-                case "ir derecha" -> cmdIrDerecha();
+                case String c when c.startsWith("ir ") -> cmdIr(c.substring(3).trim());
                 case "coger" -> cmdCoger();
                 case "examinar" -> cmdExaminar();
                 case "abrir" -> cmdAbrir();
@@ -173,28 +128,14 @@ public class Juego {
     /**
      * Mueve al jugador a la habitación de la izquierda si es posible.
      */
-    private void cmdIrIzquierda() {
-        String destino = getHabitacionActual().getSalida("izquierda");
+    private void cmdIr(String direccion) {
+        String destino = getHabitacionActual().getSalida(direccion.toLowerCase());
         if (destino != null) {
             jugador.setHabitacionActual(destino);
-            System.out.println("Te has movido a la habitación de la izquierda.");
+            System.out.println("Te has movido hacia " + direccion);
             mostrarInfoHabitacion();
         } else {
-            System.out.println("No puedes ir más a la izquierda.");
-        }
-    }
-
-    /**
-     * Mueve al jugador a la habitación de la derecha si es posible.
-     */
-    private void cmdIrDerecha() {
-        String destino = getHabitacionActual().getSalida("derecha");
-        if (destino != null) {
-            jugador.setHabitacionActual(destino);
-            System.out.println("Te has movido a la habitación de la derecha.");
-            mostrarInfoHabitacion();
-        } else {
-            System.out.println("No puedes ir más a la derecha.");
+            System.out.println("No puedes ir hacia " + direccion);
         }
     }
 

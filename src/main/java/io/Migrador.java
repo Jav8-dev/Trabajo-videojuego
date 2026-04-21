@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Map;
 
 public class Migrador {
@@ -16,7 +17,7 @@ public class Migrador {
 
     public static void migrar(Map<String, Habitacion> habitaciones) {
         Gson gson = new GsonBuilder()
-                .registerTypeHierarchyAdapter(Objeto.class, new ObjetoAdapter())
+                .registerTypeAdapter(Objeto.class, new ObjetoAdapter())
                 .setPrettyPrinting()
                 .create();
 
