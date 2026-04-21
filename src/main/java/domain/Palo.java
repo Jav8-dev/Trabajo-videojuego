@@ -3,16 +3,14 @@ package domain;
 import exceptions.ObjetoNoCompatibleException;
 import interfaces.Combinable;
 
-public class PaloRotoLlave extends Item implements Combinable {
-    public static final String NOMBRE = "Pequeño palo metálico con aspas";
-    private static final String DESCRIPCION = "Un pequeño palo metálico con aspas";
+public class Palo extends Item implements Combinable {
+    public static final String NOMBRE = "Palo";
+    private static final String DESCRIPCION = "Un palo resistente. Se podría usar para crear algo.";
     private static final boolean VISIBLE = true;
-    public static final String CODIGO_LLAVE_RESULTANTE = "LLAVEYZ";
-
     /**
-     * Constructor de la clase PaloRotoLlave.
+     * Constructor de la clase Palo.
      */
-    public PaloRotoLlave() {
+    public Palo() {
         super(NOMBRE, DESCRIPCION, VISIBLE);
     }
 
@@ -21,8 +19,8 @@ public class PaloRotoLlave extends Item implements Combinable {
         if (!(otro instanceof Combinable)) {
             throw new ObjetoNoCompatibleException("No se puede combinar " + this.getNombre() + " con " + otro.getNombre());
         } else {
-            if (otro.getNombre().equalsIgnoreCase(MangoRotoLlave.NOMBRE)) {
-                return new Llave("Llave violeta", "Una llave mediana de color violeta", true, CODIGO_LLAVE_RESULTANTE);
+            if (otro.getNombre().equalsIgnoreCase(Cuchilla.NOMBRE)) {
+                return new Navaja("Navaja", "Una navaja para cortar cuerdas", true);
             } else {
                 throw new ObjetoNoCompatibleException("No se puede combinar " + this.getNombre() + " con " + otro.getNombre());
             }
