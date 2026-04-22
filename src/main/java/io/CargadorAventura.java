@@ -45,11 +45,6 @@ public class CargadorAventura {
      * @throws IOException Si hay un problema al acceder al archivo JSON.
      */
     public AventuraConfig cargarMundoBase() throws IOException {
-        try {
-            return gson.fromJson(Files.newBufferedReader(archivoAventura), AventuraConfig.class);
-        }catch (IOException e){
-            System.out.println(e.getMessage());
-        }
-        return null;
+        return gson.fromJson(Files.newBufferedReader(archivoAventura), AventuraConfig.class);
     }
 }

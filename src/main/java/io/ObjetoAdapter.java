@@ -57,7 +57,7 @@ public class ObjetoAdapter implements JsonSerializer<Objeto>, JsonDeserializer<O
 
     @Override
     public JsonElement serialize(Objeto src, Type typeOfSrc, JsonSerializationContext context) {
-        JsonElement element = context.serialize(src);
+        JsonElement element = context.serialize(src, src.getClass());
         JsonObject object = element.getAsJsonObject();
 
         object.addProperty("tipo", src.getClass().getName());
