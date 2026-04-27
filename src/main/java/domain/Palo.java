@@ -1,20 +1,29 @@
 package domain;
 
+import exceptions.ObjetoNoCompatibleException;
 import interfaces.Combinable;
 
 public class Palo extends Item implements Combinable {
-
-    public Palo(String nombre, String descripcion) {
-        super(nombre, descripcion);
+    public static final String NOMBRE = "Palo";
+    private static final String DESCRIPCION = "Un palo resistente. Se podría usar para crear algo.";
+    private static final boolean VISIBLE = true;
+    /**
+     * Constructor de la clase Palo.
+     */
+    public Palo() {
+        super(NOMBRE, DESCRIPCION, VISIBLE);
     }
 
     @Override
-    public Objeto combinar(Objeto otro) {
-        // Comprueba si el otro objeto es un Cuchilla
-        if (otro instanceof Cuchilla) {
-            return new Navaja("navaja", "Navaja para cortar cuerdas");
+    public Objeto combinar(Objeto otro) throws ObjetoNoCompatibleException {
+        if (!(otro instanceof Combinable)) {
+            throw new ObjetoNoCompatibleException("No se puede combinar " + this.getNombre() + " con " + otro.getNombre());
+        } else {
+            if (otro.getNombre().equalsIgnoreCase(Cuchilla.NOMBRE)) {
+                return new Navaja("Navaja", "Una navaja para cortar cuerdas", true);
+            } else {
+                throw new ObjetoNoCompatibleException("No se puede combinar " + this.getNombre() + " con " + otro.getNombre());
+            }
         }
-
-        return null;
     }
 }

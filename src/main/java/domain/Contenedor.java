@@ -2,52 +2,70 @@ package domain;
 
 import interfaces.Abrible;
 
-public class Contenedor extends Mueble implements Abrible {
-    private String codigoNecesario;
+public class Contenedor extends Objeto implements Abrible {
     private boolean abierto;
-    private Objeto objetoGuardado;
+    private String codigoNecesario; // Si es null, no necesita llave
+    private Objeto contenido; // Lo que hay dentro
 
-    public Contenedor(String nombre, String descripcion, String codigoNecesario, Objeto objetoGuardado) {
-        super(nombre, descripcion);
-        this.codigoNecesario = codigoNecesario;
+    // CONSTRUCTOR 1: Para cosas con llave (Cofres)
+    /**
+     * Constructor de la clase Contenedor que requiere una llave para abrirse.
+     *
+     * @param nombre        El nombre del contenedor.
+     * @param descripcion   La descripción del contenedor.
+     * @param visible       Indica si el contenedor es visible o no.
+     * @param codigo        El código necesario para abrir el contenedor.
+     * @param contenido     El objeto contenido dentro del contenedor.asdfsdfsd
+     */
+    public Contenedor(String nombre, String descripcion, boolean visible, String codigo, Objeto contenido) {
+        super(nombre, descripcion, visible);
+        this.codigoNecesario = codigo;
+        this.contenido = contenido;
         this.abierto = false;
-        this.objetoGuardado = objetoGuardado;
     }
 
-    public Contenedor(String nombre, String descripcion, String codigoNecesario) {
-        this(nombre, descripcion, codigoNecesario, null);
+    // CONSTRUCTOR 2: Para cosas sin llave (Cajones, Armarios)
+    /**
+     * Constructor de la clase Contenedor que no requiere una llave para abrirse.
+     *
+     * @param nombre        El nombre del contenedor.
+     * @param descripcion   La descripción del contenedor.
+     * @param visible       Indica si el contenedor es visible o no.
+     * @param contenido     El objeto contenido dentro del contenedor.
+     */
+    public Contenedor(String nombre, String descripcion, boolean visible, Objeto contenido) {
+        super(nombre, descripcion, visible);
+        this.codigoNecesario = null; // MARCA IMPORTANTE
+        this.contenido = contenido;
+        this.abierto = false;
     }
 
     @Override
     public RespuestaAccion abrir(Llave llave) {
-        // Si ya esta abierto
         if (abierto) {
-            return new RespuestaAccion(false, "El " + getNombre() + " ya está abierto.");
+            return new RespuestaAccion(false, "Eso ya está abierto, no pierdas el tiempo.");
         }
 
-        // Si el contenedor no nesecita una llave
-        if (codigoNecesario == null) {
+        // CASO 1: No necesita llave (El cajón)
+        // Caso: Se abre con la mano (null)
+        if (this.codigoNecesario == null) {
             abierto = true;
-            if (objetoGuardado != null) {
-                return new RespuestaAccion(true,
-                        "Has abierto el " + getNombre() + ". Hay un " + objetoGuardado.getNombre() + " dentro");
+            return new RespuestaAccion(true, "Abres " + getNombre() + " sin problemas.");
+        }
+
+        // CASO 2: Necesita llave (El cofre)
+        if (llave != null) {
+            if (llave.getCodigoSeguridad().equals(this.codigoNecesario)) {
+                abierto = true;
+                return new RespuestaAccion(true, "Clic. La llave gira y abres " + getNombre());
             }
-            return new RespuestaAccion(true, "Has abierto el " + getNombre() + ". Esta vacio.");
+            else {
+                return new RespuestaAccion(false, "La llave no encaja.");
+            }
         }
 
-        // Si la llave es incorrecta
-        if (llave == null) {
-            return new RespuestaAccion(false,
-                    "El " + getNombre() + " está cerrado con llave. Necesitas la llave correcta.");
-        }
-
-        // Si la llave es correcta
-        abierto = true;
-        if (objetoGuardado != null) {
-            return new RespuestaAccion(true,
-                    "Has abierto el " + getNombre() + " con la llave. Hay un " + objetoGuardado.getNombre() + " dentro");
-        }
-        return new RespuestaAccion(true, "Has abierto el " + getNombre() + " con la llave. Está vacío.");
+        // CASO 3: Fallo
+        return new RespuestaAccion(false, "Está cerrado. Necesitas una llave.");
     }
 
     @Override
@@ -55,19 +73,23 @@ public class Contenedor extends Mueble implements Abrible {
         return abierto;
     }
 
-    // Sacar objetos del contenedor
-    public Objeto sacarObjeto() {
-        if (!abierto) {
-            return null;
-        }
-
-        Objeto obj = objetoGuardado;
-        objetoGuardado = null;
-        return obj;
+    @Override
+    public String getCodigoNecesario() {
+        return codigoNecesario;
     }
 
-    public Objeto getObjetoGuardado() {
-        return objetoGuardado;
+    @Override
+    public Objeto getContenido() {
+        return contenido;
+    }
+
+    @Override
+    public void setContenido(Objeto contenido) {
+        this.contenido = contenido;
+    }
+
+    @Override
+    public void cerrar() {
+        this.abierto = false;
     }
 }
-

@@ -1,86 +1,95 @@
 package domain;
 
+import exceptions.AventuraException;
+import exceptions.InventarioLlenoException;
 import interfaces.Inventariable;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Jugador {
-    private Objeto[] inventario;
-    private int habitacionActual;
-    private final int TAMAÑO_INVENTARIO = 5;
+    private static final int MAX_INVENTARIO = 10;
 
-    public Jugador() {
-        this.inventario = new Objeto[TAMAÑO_INVENTARIO];
-        this.habitacionActual = 0;
+    private String nombre;
+    private List<Objeto> inventario;
+    private String habitacionActual;
+
+    /**
+     * Constructor de la clase Jugador.
+     *
+     * @param nombre Nombre del jugador.
+     */
+    public Jugador(String nombre) {
+        this.nombre = nombre;
+        this.habitacionActual = "inicio";
+        this.inventario = new ArrayList<>();
+
     }
 
-    public Jugador(Objeto[] inventario, int habitacionActual) {
-        this.inventario = new Objeto[TAMAÑO_INVENTARIO];
-        this.habitacionActual = 0; // El jugador empieza en la habitacion inicial
+    /** Getters y Setters */
+    public String getNombre() {
+        return nombre;
     }
 
-    public int getHabitacionActual() {
+    public String getHabitacionActual() {
         return habitacionActual;
     }
 
-    public void setHabitacionActual(int habitacionActual) {
+    public void setHabitacionActual(String habitacionActual) {
         this.habitacionActual = habitacionActual;
     }
 
-    public Objeto[] getInventario() {
+    public void setInventario(List<Objeto> inventario) {
+        this.inventario = inventario;
+    }
+
+    public List<Objeto> getInventario() {
         return inventario;
     }
-
-    /*
-    Metodo para agregar los objetos al inventario
+    /**
+     * Método para que el jugador coja un objeto.
+     *
+     * @param objeto Objeto a coger.
+     * @throws AventuraException Si el objeto no es inventariable o el inventario está lleno.
      */
-
-    public boolean agregarAlInventario(Objeto objeto) {
+    /**
+     * Método para que el jugador coja un objeto.
+     * @param objeto Objeto a coger.
+     * @throws AventuraException Si el objeto no es inventariable o el inventario está lleno.
+     */
+    public void coger(Objeto objeto) throws AventuraException {
         if (!(objeto instanceof Inventariable)) {
-            return false;
+            throw new AventuraException("El objeto %s no se puede coger.".formatted(objeto.getNombre()));
         }
-
-        for (int i = 0; i < inventario.length; i++) {
-            if (inventario[i] == null) {
-                inventario[i] = objeto;
-                return true;
-            }
+        if (inventario.size() >= MAX_INVENTARIO) {
+            throw new InventarioLlenoException("El inventario está lleno. No puedes coger más objetos.");
         }
-        return false;
+        inventario.add(objeto);
     }
 
-    /*
-    Metodo para eliminar objetos al inventario
+    /**
+     * Método para eliminar un objeto del inventario.
+     *
+     * @param objeto Objeto a eliminar.
+     * @return true si se eliminó el objeto, false si no se encontró.
      */
-
-    public boolean quitarDelInventario(Objeto objeto) {
-        for (int i = 0; i < inventario.length; i++) {
-            if (inventario[i] == objeto) {
-                inventario[i] = null;
-                return true;
-            }
-        }
-        return false;
+    public boolean eliminarDeInventario(Objeto objeto) {
+        return inventario.remove(objeto);
     }
 
-    /*
-    Metodo para buscar un objeto en el inventario
+    /**
+     * Busca un objeto en el inventario por su nombre.
+     *
+     * @param nombre Nombre del objeto a buscar.
+     * @return El objeto si se encuentra, null en caso contrario.
      */
-
     public Objeto buscarEnInventario(String nombre) {
         for (Objeto objeto : inventario) {
-            if (objeto != null && objeto.getNombre().equalsIgnoreCase(nombre)) {
+            if (objeto.getNombre().equalsIgnoreCase(nombre)) {
                 return objeto;
             }
         }
         return null;
     }
-
-    public boolean tieneEspacio() {
-        for (Objeto objeto : inventario) {
-            if (objeto == null) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 }
